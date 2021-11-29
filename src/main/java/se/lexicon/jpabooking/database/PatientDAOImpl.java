@@ -43,7 +43,7 @@ public class PatientDAOImpl implements PatientDAO{
     @Transactional(readOnly = true)
     public Optional<Patient> findByPnr(String pnr) {
         return entityManager.createQuery("SELECT p FROM Patient p WHERE p.pnr = :pnr", Patient.class)
-                .setParameter("pnr", pnr)
+                .setParameter("pnr", pnr.replaceAll(" ", "").replaceAll("-", "").trim())
                 .getResultStream()
                 .findFirst();
     }
