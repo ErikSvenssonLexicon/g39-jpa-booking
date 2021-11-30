@@ -70,6 +70,13 @@ public class BookingDAOImpl implements BookingDAO{
     }
 
     @Override
+    public List<Booking> findAvailableTimesInCity(String city) {
+        return entityManager.createQuery("SELECT b FROM Booking b WHERE UPPER(b.premises.address.city) = UPPER(:city) AND b.vacant = true", Booking.class)
+                .setParameter("city", city)
+                .getResultList();
+    }
+
+    @Override
     public Booking save(Booking entity) {
         if(entity == null) throw new IllegalArgumentException("Entity was null");
         if(entity.getId() == null){

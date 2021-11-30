@@ -1,6 +1,5 @@
 package se.lexicon.jpabooking.database;
 
-import se.lexicon.jpabooking.database.DAOGenericCRUD;
 import se.lexicon.jpabooking.model.Booking;
 
 import java.time.LocalDateTime;
@@ -13,4 +12,5 @@ public interface BookingDAO extends DAOGenericCRUD<Booking, String> {
     List<Booking> findByAdministratorId(String administratorId);
     List<Booking> findByVaccineType(String vaccineType);
     List<Booking> findByVacantStatus(boolean vacantStatus);
+    List<Booking> findAvailableTimesInCity(String city);
 }
