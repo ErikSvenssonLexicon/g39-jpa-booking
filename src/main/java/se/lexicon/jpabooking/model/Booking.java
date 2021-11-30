@@ -2,10 +2,7 @@ package se.lexicon.jpabooking.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -26,6 +23,19 @@ public class Booking {
     private String administratorId;
     private String vaccineType;
     private boolean vacant;
+    @ManyToOne(
+            cascade = {CascadeType.REFRESH, CascadeType.PERSIST},
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "fk_patient_id")
+    private Patient patient;
+
+    @ManyToOne(
+            cascade = {CascadeType.REFRESH, CascadeType.PERSIST},
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "fk_premises_id")
+    private Premises premises;
 
     public Booking(String id, LocalDateTime dateTime, BigDecimal price, String administratorId, String vaccineType, boolean vacant) {
         this.id = id;
@@ -85,6 +95,23 @@ public class Booking {
 
     public void setVacant(boolean vacant) {
         this.vacant = vacant;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+        setVacant(this.patient == null);
+    }
+
+    public Premises getPremises() {
+        return premises;
+    }
+
+    public void setPremises(Premises premises) {
+        this.premises = premises;
     }
 
     @Override
