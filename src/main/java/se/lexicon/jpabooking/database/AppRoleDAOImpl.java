@@ -3,7 +3,7 @@ package se.lexicon.jpabooking.database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.jpabooking.model.AppRole;
+import se.lexicon.jpabooking.model.entity.AppRole;
 import se.lexicon.jpabooking.model.constants.UserRole;
 
 import javax.persistence.EntityManager;

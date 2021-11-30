@@ -1,6 +1,6 @@
 package se.lexicon.jpabooking.database;
 
-import se.lexicon.jpabooking.model.Premises;
+import se.lexicon.jpabooking.model.entity.Premises;
 
 public interface PremisesDAO extends DAOGenericCRUD<Premises, String>{
 }

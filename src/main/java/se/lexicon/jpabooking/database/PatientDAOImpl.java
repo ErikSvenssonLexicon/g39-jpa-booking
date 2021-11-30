@@ -2,7 +2,7 @@ package se.lexicon.jpabooking.database;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.jpabooking.model.Patient;
+import se.lexicon.jpabooking.model.entity.Patient;
 
 import javax.persistence.EntityManager;
 import java.util.List;

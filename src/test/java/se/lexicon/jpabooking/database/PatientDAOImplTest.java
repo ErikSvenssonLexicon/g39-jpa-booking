@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.jpabooking.model.Patient;
+import se.lexicon.jpabooking.model.entity.Patient;
 
 import java.time.LocalDate;
 import java.util.Arrays;

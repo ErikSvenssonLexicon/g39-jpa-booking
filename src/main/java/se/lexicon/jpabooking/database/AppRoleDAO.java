@@ -1,6 +1,6 @@
 package se.lexicon.jpabooking.database;
 
-import se.lexicon.jpabooking.model.AppRole;
+import se.lexicon.jpabooking.model.entity.AppRole;
 import se.lexicon.jpabooking.model.constants.UserRole;
 
 import java.util.Optional;

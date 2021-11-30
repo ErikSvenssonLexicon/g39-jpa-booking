@@ -1,6 +1,6 @@
 package se.lexicon.jpabooking.database;
 
-import se.lexicon.jpabooking.model.Patient;
+import se.lexicon.jpabooking.model.entity.Patient;
 
 import java.util.List;
 import java.util.Optional;

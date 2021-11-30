@@ -1,6 +1,6 @@
 package se.lexicon.jpabooking.database;
 
-import se.lexicon.jpabooking.model.Address;
+import se.lexicon.jpabooking.model.entity.Address;
 
 import java.util.Optional;
 

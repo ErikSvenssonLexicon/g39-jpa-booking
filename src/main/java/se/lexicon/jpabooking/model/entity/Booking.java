@@ -1,4 +1,4 @@
-package se.lexicon.jpabooking.model;
+package se.lexicon.jpabooking.model.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 

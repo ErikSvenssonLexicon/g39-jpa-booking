@@ -1,6 +1,6 @@
 package se.lexicon.jpabooking.database;
 
-import se.lexicon.jpabooking.model.Booking;
+import se.lexicon.jpabooking.model.entity.Booking;
 
 import java.time.LocalDateTime;
 import java.util.List;

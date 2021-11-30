@@ -1,6 +1,6 @@
 package se.lexicon.jpabooking.database;
 
-import se.lexicon.jpabooking.model.ContactInfo;
+import se.lexicon.jpabooking.model.entity.ContactInfo;
 
 import java.util.Optional;
 
