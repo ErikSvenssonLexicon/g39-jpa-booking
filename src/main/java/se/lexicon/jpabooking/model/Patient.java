@@ -2,10 +2,7 @@ package se.lexicon.jpabooking.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import java.time.LocalDate;
 
@@ -25,6 +22,12 @@ public class Patient {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "fk_contact_info_id")
+    private ContactInfo contactInfo;
 
     public Patient(String id, String pnr, String firstName, String lastName, LocalDate birthDate) {
         this.id = id;
@@ -75,5 +78,13 @@ public class Patient {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public ContactInfo getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
     }
 }
