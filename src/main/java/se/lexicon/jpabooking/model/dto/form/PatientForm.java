@@ -8,7 +8,6 @@ import se.lexicon.jpabooking.validation.UniquePnr;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ import static se.lexicon.jpabooking.validation.messages.ValidationMessages.*;
 
 @Validated
 public class PatientForm implements Serializable {
+
     @NotBlank(message = MANDATORY_FIELD, groups = OnPut.class)
     private String id;
     @NotBlank(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
@@ -32,6 +32,9 @@ public class PatientForm implements Serializable {
 
     @NotNull(message = MANDATORY_FORM, groups = OnPost.class)
     @Valid private ContactInfoForm contactInfo;
+
+    @NotNull(message = MANDATORY_FORM, groups = OnPost.class)
+    @Valid private AppUserForm userCredentials;
 
     public PatientForm() {
     }
@@ -82,5 +85,13 @@ public class PatientForm implements Serializable {
 
     public void setContactInfo(ContactInfoForm contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public AppUserForm getUserCredentials() {
+        return userCredentials;
+    }
+
+    public void setUserCredentials(AppUserForm userCredentials) {
+        this.userCredentials = userCredentials;
     }
 }
