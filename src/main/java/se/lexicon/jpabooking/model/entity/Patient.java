@@ -5,6 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static se.lexicon.jpabooking.model.constants.EntityConstants.GENERATOR;
 import static se.lexicon.jpabooking.model.constants.EntityConstants.UUID_GENERATOR;
@@ -35,6 +37,13 @@ public class Patient {
     )
     @JoinColumn(name = "fk_app_user_id", table = "patient")
     private AppUser userCredentials;
+
+    @OneToMany(
+            cascade = {CascadeType.REFRESH, CascadeType.DETACH},
+            fetch = FetchType.LAZY,
+            mappedBy = "patient"
+    )
+    private List<Booking> vaccineBookings;
 
     public Patient(String id, String pnr, String firstName, String lastName, LocalDate birthDate) {
         this.id = id;
@@ -95,11 +104,46 @@ public class Patient {
         this.birthDate = birthDate;
     }
 
+    public List<Booking> getVaccineBookings() {
+        if(vaccineBookings == null) vaccineBookings = new ArrayList<>();
+        return vaccineBookings;
+    }
+
+    public void setVaccineBookings(List<Booking> vaccineBookings) {
+        if(vaccineBookings == null) vaccineBookings = new ArrayList<>();
+        if(vaccineBookings.isEmpty()){
+            if(this.vaccineBookings != null){
+                this.vaccineBookings.forEach(booking -> booking.setPatient(null));
+            }
+        }else {
+            vaccineBookings.forEach(booking -> booking.setPatient(this));
+        }
+        this.vaccineBookings = vaccineBookings;
+    }
+
     public ContactInfo getContactInfo() {
         return contactInfo;
     }
 
     public void setContactInfo(ContactInfo contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public void addBooking(Booking booking){
+        if(booking == null) throw new IllegalArgumentException("Booking was null");
+        if(vaccineBookings == null) vaccineBookings = new ArrayList<>();
+        if(!vaccineBookings.contains(booking)){
+            vaccineBookings.add(booking);
+            booking.setPatient(this);
+        }
+    }
+
+    public void removeBooking(Booking booking){
+        if(booking == null) throw new IllegalArgumentException("Booking was null");
+        if(vaccineBookings == null) vaccineBookings = new ArrayList<>();
+        if(vaccineBookings.contains(booking)){
+            vaccineBookings.remove(booking);
+            booking.setPatient(null);
+        }
     }
 }
