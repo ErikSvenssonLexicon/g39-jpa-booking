@@ -29,6 +29,13 @@ public class Patient {
     @JoinColumn(name = "fk_contact_info_id")
     private ContactInfo contactInfo;
 
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "fk_app_user_id", table = "patient")
+    private AppUser userCredentials;
+
     public Patient(String id, String pnr, String firstName, String lastName, LocalDate birthDate) {
         this.id = id;
         this.pnr = pnr;
@@ -38,6 +45,14 @@ public class Patient {
     }
 
     public Patient() {
+    }
+
+    public AppUser getUserCredentials() {
+        return userCredentials;
+    }
+
+    public void setUserCredentials(AppUser userCredentials) {
+        this.userCredentials = userCredentials;
     }
 
     public String getId() {
