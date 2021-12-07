@@ -36,6 +36,10 @@ public class AppRole {
         this.userRole = userRole;
     }
 
+    public AppRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
     public AppRole() {
     }
 
