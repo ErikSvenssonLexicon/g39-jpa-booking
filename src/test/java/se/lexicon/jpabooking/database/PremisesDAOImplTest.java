@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.jpabooking.model.entity.Address;
 import se.lexicon.jpabooking.model.entity.Premises;
 
 import java.util.Arrays;
@@ -66,6 +67,18 @@ class PremisesDAOImplTest {
         Premises result = testObject.save(premises);
         assertNotNull(result);
         assertEquals("Vårdcentral Norr", result.getName());
+    }
+
+    @Test
+    void countUsagesByAddressId() {
+        Address address = em.persistAndFlush(new Address(null, "Storgatan 1", "12345", "Byhåla"));
+        String addressId = address.getId();
+        premises.setAddress(address);
+        premises = em.merge(premises);
+
+        Long result = testObject.countUsagesByAddressId(addressId);
+
+        assertEquals(1, result);
     }
 
     @Test

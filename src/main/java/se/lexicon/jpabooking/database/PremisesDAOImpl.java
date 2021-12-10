@@ -46,4 +46,12 @@ public class PremisesDAOImpl implements PremisesDAO{
     public void delete(String id) {
         findById(id).ifPresent(entityManager::remove);
     }
+
+    @Override
+    public long countUsagesByAddressId(String addressId) {
+        return entityManager.createQuery("SELECT COUNT(p.id) as total FROM Premises p WHERE p.address.id = :addressId", Long.class)
+                .setParameter("addressId", addressId)
+                .getResultStream()
+                .findFirst().orElse(0L);
+    }
 }
