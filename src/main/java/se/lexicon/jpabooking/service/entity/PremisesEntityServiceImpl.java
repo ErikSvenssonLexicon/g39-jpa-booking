@@ -3,10 +3,11 @@ package se.lexicon.jpabooking.service.entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.jpabooking.database.BookingDAO;
 import se.lexicon.jpabooking.database.PremisesDAO;
 import se.lexicon.jpabooking.exception.AppResourceNotFoundException;
+import se.lexicon.jpabooking.model.dto.form.BookingForm;
 import se.lexicon.jpabooking.model.dto.form.PremisesForm;
+import se.lexicon.jpabooking.model.entity.Booking;
 import se.lexicon.jpabooking.model.entity.Premises;
 
 import java.util.List;
@@ -16,13 +17,13 @@ import java.util.List;
 public class PremisesEntityServiceImpl implements PremisesEntityService{
 
     private final PremisesDAO premisesDAO;
-    private final BookingDAO bookingDAO;
+    private final BookingEntityService bookingEntityService;
     private final AddressEntityService addressEntityService;
 
     @Autowired
-    public PremisesEntityServiceImpl(PremisesDAO premisesDAO, BookingDAO bookingDAO, AddressEntityService addressEntityService) {
+    public PremisesEntityServiceImpl(PremisesDAO premisesDAO, BookingEntityService bookingEntityService, AddressEntityService addressEntityService) {
         this.premisesDAO = premisesDAO;
-        this.bookingDAO = bookingDAO;
+        this.bookingEntityService = bookingEntityService;
         this.addressEntityService = addressEntityService;
     }
 
@@ -33,8 +34,6 @@ public class PremisesEntityServiceImpl implements PremisesEntityService{
         Premises premises = new Premises();
         premises.setName(premisesForm.getName().trim());
         premises.setAddress(addressEntityService.persistOrChange(premisesForm.getAddress()));
-        //Todo: Once BookingEntityService is finished fix setting initial bookings if available
-
         return premisesDAO.save(premises);
     }
 
@@ -59,9 +58,6 @@ public class PremisesEntityServiceImpl implements PremisesEntityService{
         if(premisesForm.getAddress() != null){
             premises.setAddress(addressEntityService.persistOrChange(premisesForm.getAddress()));
         }
-        if(premisesForm.getBookings() != null || !premisesForm.getBookings().isEmpty()){
-            //Todo: Finish this after creating BookingEntityService
-        }
 
         premises = premisesDAO.save(premises);
         return premises;
@@ -78,14 +74,37 @@ public class PremisesEntityServiceImpl implements PremisesEntityService{
     }
 
     @Override
-    public Premises addBooking(String premisesId, String bookingId) {
-        //Todo: Finish this after creating BookingEntityService
-        return null;
+    public Premises addNewBooking(String premisesId, BookingForm bookingForm) {
+        Premises premises = findById(premisesId);
+        premises.addBooking(
+                bookingEntityService.create(bookingForm)
+        );
+
+        premises = premisesDAO.save(premises);
+        return premises;
     }
 
     @Override
     public Premises removeBooking(String premisesId, String bookingId) {
-        //Todo: Finish this after creating BookingEntityService
-        return null;
+        Premises premises = findById(premisesId);
+        Booking booking = bookingEntityService.findById(bookingId);
+
+        premises.removeBooking(booking);
+        premises = premisesDAO.save(premises);
+        return premises;
+    }
+
+    @Override
+    public Premises reallocateBooking(String premisesId, String bookingId) {
+        Premises newPremises = findById(premisesId);
+        Booking booking = bookingEntityService.findById(bookingId);
+        Premises oldPremises = booking.getPremises();
+        if(oldPremises != null){
+            oldPremises.removeBooking(booking);
+        }
+        newPremises.addBooking(booking);
+
+        newPremises = premisesDAO.save(newPremises);
+        return newPremises;
     }
 }

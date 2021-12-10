@@ -11,5 +11,6 @@ public class ValidationMessages {
     public static final String MANDATORY_FORM = "Du måste fylla i detta formulär";
     public static final String UNIQUE_PNR = "Förekommer redan i databasen";
     public static final String UNIQUE_EMAIL = "Detta email finns redan registrerat";
+    public static final String DATETIME_IN_PAST = "Felaktigd tid. Datumet och tiden har redan inträffat";
 
 }

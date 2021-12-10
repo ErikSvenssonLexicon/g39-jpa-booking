@@ -23,8 +23,6 @@ public class PremisesForm implements Serializable {
     @NotNull(message = MANDATORY_FORM, groups = OnPost.class)
     @Valid private AddressForm address;
 
-    private List<@Valid BookingForm> bookings;
-
     public PremisesForm() {
     }
 
@@ -50,13 +48,5 @@ public class PremisesForm implements Serializable {
 
     public void setAddress(AddressForm address) {
         this.address = address;
-    }
-
-    public List<BookingForm> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<BookingForm> bookings) {
-        this.bookings = bookings;
     }
 }
