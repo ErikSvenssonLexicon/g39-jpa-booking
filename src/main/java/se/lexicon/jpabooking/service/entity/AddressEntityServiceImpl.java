@@ -30,9 +30,9 @@ public class AddressEntityServiceImpl implements AddressEntityService{
                 addressForm.getZipCode().replace(" ", ""),
                 addressForm.getCity().trim()
         ).orElse(
-                new Address(
+                addressDAO.save(new Address(
                     null, addressForm.getStreetAddress().trim(), addressForm.getZipCode().replace(" ", ""), addressForm.getCity().trim()
-                )
+                ))
         );
     }
 
