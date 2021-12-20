@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <title>Immunity</title>
+</head>
+<body>
+    <div class="container">
+        <div class="p-5 mb-4 bg-success rounded text-white">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">Immunity Vaccin bokning</h1>
+                <p class="col-md-8 fs-4">
+                    Välkommna till Immunity vaccin boknings portal. Vi samordnar vaccin boknings tider över hela Sverige och
+                    vi lovar dig snabb service oberoende var du bor.                               
+                </p>
+                <div class="d-grid gap-3">
+                    <a class="btn btn-primary btn-lg" th:href="@{/public/register}">Registrera</a>
+                    <a class="btn btn-info btn-lg text-white">Logga in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

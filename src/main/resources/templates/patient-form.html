@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <title>Patient</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <div class="nav d-flex justify-content-between align-items-center text-center">
+                    <h4 class="m-0">Registrering:</h4>
+                    <a th:href="@{/index}" class="btn btn-warning btn-large text-white">Avbryt</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" th:action="@{/public/register/process}" th:object="${form}" >
+                    <h6 class="card-subtitle mb-2">Inloggningsinformation:</h6>
+                    <input id="userId" type="hidden" th:value="*{userCredentials.id}" th:field="*{userCredentials.id}">
+                    <div class="form-floating mb-2">
+                        <input class="form-control" type="text" id="username" th:field="*{userCredentials.username}" th:value="*{userCredentials.username}">
+                        <label for="username">Användarnamn:</label>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="password" id="password" th:field="*{userCredentials.password}" th:value="*{userCredentials.password}">
+                            <label for="password">Lösenord:</label>
+                        </div>
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="password" id="repeat" name="repeat">
+                            <label for="repeat">Upprepa lösenord:</label>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6 class="card-subtitle mb-2">Patient uppgifter:</h6>
+                    <input id="patientId" type="hidden" th:value="*{id}" th:field="*{id}">
+                    <div class="row g-2 mb-2">
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="text" id="pnr" th:field="*{pnr}" th:value="*{pnr}">
+                            <label for="pnr">Personnummer:</label>
+                        </div>
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="date" id=birthDate th:field="*{birthDate}" th:value="*{birthDate}">
+                            <label for="birthDate">Födelsedatum:</label>
+                        </div>
+                    </div>                   
+                    <div class="row g-2 mb-2">
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="text" id="firstName" th:field="*{firstName}" th:value="*{firstName}">
+                            <label for="firstName">Tilltalsnamn:</label>
+                        </div>
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="text" id="lastName" th:field="*{lastName}" th:value="*{lastName}">
+                            <label for="lastName">Efternamn:</label>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6 class="card-subtitle mb-2">Kontaktuppgifter:</h6>
+                    <input id="contactInfoId" type="hidden" th:value="*{contactInfo.id}" th:field="*{contactInfo.id}">
+                    <div class="row g-2 mb-2">
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="email" id="email" th:field="*{contactInfo.email}" th:value="*{contactInfo.email}">
+                            <label for="email">Epost:</label>
+                        </div>
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="text" id="phone" th:field="*{contactInfo.phone}" th:value="*{contactInfo.phone}">
+                            <label for="phone">Telefon:</label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-grid g-2 gap-2">
+                        <button type="submit" class="btn btn-success">Skicka</button>
+                        <button type="reset" class="btn btn-danger">Rensa</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
