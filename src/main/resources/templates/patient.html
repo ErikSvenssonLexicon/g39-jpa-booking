@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 
     
-    <title>Details: Nisse Nilsson</title>
+    <title th:text="'Patient: ' + ${patient.firstName} + ' ' + ${patient.lastName}">Details: Nisse Nilsson</title>
 </head>
 <body>
     <!--Photo by Towfiqu barbhuiya on Unsplash huiya-HftV5Xp2lkI-unsplash.jpg-->        
@@ -16,7 +17,7 @@
             <div class="card shadow">
                 <div class="card-header">
                     <div class="nav d-flex justify-content-between align-items-center text-center">
-                        <h4 class="m-0">Nisse Nilsson</h4>                        
+                        <h4 class="m-0" th:text="${patient.firstName + ' ' + patient.lastName}"></h4>
                         <form>
                             <button class="btn btn-success btn-large" type="submit">Logga Ut</button>
                         </form>
@@ -25,23 +26,22 @@
                 <div class="card-body">
                     <h4 class="card-subtitle">Patient:</h4>                   
                     <div class="row">
-                        <span>Namn: Nisse Nilsson</span>
+                        <span th:text="|Namn: ${patient.firstName + ' ' + patient.lastName}|">Namn: Nisse Nilsson</span>
                     </div>
                     <div class="row">
-                        <span>PNR: 197609112456</span>                            
+                        <span th:text="|Pnr: ${patient.pnr}|">PNR: 197609112456</span>
                     </div>
                     <div class="row">
-                        <span>Födelesedatum: 19760911</span>
+                        <span th:text="|Födelsedatum: ${patient.birthDate}|">Födelesedatum: 19760911</span>
                     </div>                    
                     <hr>
                     <h4 class="card-subtitle">Kontakt:</h4>
                     <div class="row">
-                        <span>Email: nisse@gmail.com</span>
+                        <span th:text="|Email: ${patient.contactInfo.email}|">Email: nisse@gmail.com</span>
                     </div>
                     <div class="row">
-                        <span>Telefon: 0702347642</span>
+                        <span>Telefon: <span th:text="${patient.contactInfo.phone.isEmpty()}? 'Ej angivet': ${patient.contactInfo.phone}">Ej angivet</span></span>
                     </div>
-                         
                 </div>
                 <div class="card-footer">                    
                     <ul class="row nav nav-pills card-header-pills row-cols-1 row-cols-md-3 row-cols-lg-5">
