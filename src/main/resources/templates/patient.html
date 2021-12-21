@@ -55,7 +55,7 @@
                             <a class="nav-link text-center">Användare</a>
                         </li>
                         <li class="col nav-item">
-                            <a class="nav-link text-center">Bokningar</a>
+                            <a th:href="@{/patients/{id}/bookings(id = ${patient.id})}" class="nav-link text-center">Bokningar</a>
                         </li>
                         <li class="col nav-item">
                             <a class="nav-link text-center">Sök tider</a>
