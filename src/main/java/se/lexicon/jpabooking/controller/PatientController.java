@@ -23,4 +23,10 @@ public class PatientController {
         return "patient";
     }
 
+    @GetMapping("/patients/{id}/bookings")
+    public String findBookingsByPatientId(@PathVariable("id") String id, Model model){
+        model.addAttribute("patient", patientEntityService.findById(id));
+        return "patient-bookings";
+    }
+
 }
