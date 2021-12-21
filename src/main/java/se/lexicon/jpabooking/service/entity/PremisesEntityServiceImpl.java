@@ -30,7 +30,6 @@ public class PremisesEntityServiceImpl implements PremisesEntityService{
     @Override
     public Premises create(PremisesForm premisesForm) {
         if(premisesForm == null) throw new IllegalArgumentException("PremisesForm premisesForm was null");
-        if(premisesForm.getId() != null) throw new IllegalArgumentException("Id was not null");
         Premises premises = new Premises();
         premises.setName(premisesForm.getName().trim());
         premises.setAddress(addressEntityService.persistOrChange(premisesForm.getAddress()));

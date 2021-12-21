@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <title>Premises</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">                
+                <div class="nav d-flex justify-content-between align-items-center text-center">
+                    <h4 class="m-0">Registrera lokal:</h4>
+                    <a class="btn btn-warning btn-large text-white">Avbryt</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" th:action="@{/premises/create/process}" th:object="${form}">
+                    <input type="hidden" id="premisesId" th:field="*{id}" th:value="*{id}">
+                    <div class="form-floating mb-2">
+                        <input class="form-control" type="text" id="name" th:field="*{name}" th:value="*{name}">
+                        <label for="name">Namn på lokal:</label>
+                    </div>
+                    <input type="hidden" id="addressId" th:field="*{address.id}" th:value="*{address.id}">
+                    <div class="form-floating mb-2">
+                        <input class="form-control mb-2" type="text" id="streetAddress" th:field="*{address.streetAddress}" th:value="*{address.streetAddress}">
+                        <label for="streetAddress">Gatuadress:</label>
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="text" id="zipCode" th:field="*{address.zipCode}" th:value="*{address.zipCode}">
+                            <label for="zipCode">Postnummer:</label>
+                        </div>
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="text" id="city" th:field="*{address.city}" th:value="*{address.city}">
+                            <label for="city">Postort:</label>
+                        </div>
+                    </div>
+                    <div class="d-grid g-2 gap-2">
+                        <button type="submit" class="btn btn-success">Skicka</button>
+                        <button type="reset" class="btn btn-danger">Rensa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
