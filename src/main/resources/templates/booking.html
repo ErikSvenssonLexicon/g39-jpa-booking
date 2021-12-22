@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <title>Bokning</title>
+    <title>Bokningdetaljer</title>
 </head>
 <body>
     <div class="container">
@@ -24,7 +24,7 @@
                 
                 <div class="d-flex justify-content-between align-items-center">
                     <h6 class="card-subtitle mb-2 m-0">Bokningsinformation:</h6>
-                    <a class="btn btn-primary text-white">Ändra</a>
+                    <a th:href="@{/bookings/{id}/update (id=${booking.id})} " class="btn btn-primary text-white">Ändra</a>
                 </div>
                 <div class="p-2 shadow-sm mb-2">
                     <div class="row row-cols-2 g-1">
@@ -32,7 +32,7 @@
                             <span>Tid och datum:</span>                        
                         </div>
                         <div class="col">
-                            <span>2022-03-10 09:00</span>
+                            <span th:text="${#temporals.format(booking.dateTime, 'yyyy-MM-dd HH:mm')}">2022-03-10 09:00</span>
                         </div>
                     </div>
                     <div class="row row-cols-2 g-1">
@@ -40,15 +40,15 @@
                             <span>Pris:</span>                        
                         </div>
                         <div class="col">
-                            <span>0 SEK</span>
+                            <span th:text="${booking.price} + ' SEK'">0 SEK</span>
                         </div>
                     </div>
                     <div class="row row-cols-2 g-1">
                         <div class="col col-md-3 col-lg-2 col-sm-6">
-                            <span>Vaccin:</span>                        
+                            <span>Vaccin:</span>
                         </div>
                         <div class="col">
-                            <span>Covid 19</span>
+                            <span th:text="${booking.vaccineType}">Covid 19</span>
                         </div>
                     </div>
                     <div class="row row-cols-2 g-1">
@@ -56,7 +56,7 @@
                             <span>Administratör:</span>                        
                         </div>
                         <div class="col">
-                            <span>Ej administrerat</span>
+                            <span th:text="${booking.administratorId == null ? 'Ej administrerat' : booking.administratorId}">Ej administrerat</span>
                         </div>
                     </div>
                     <div class="row row-cols-2 g-1">
@@ -64,59 +64,62 @@
                             <span>Status:</span>                        
                         </div>
                         <div class="col">
-                            <span>Bokad</span>
+                            <span th:text="${booking.vacant ? 'Ledig' : 'Bokad'}">Bokad</span>
                         </div>
                     </div>                                        
                 </div>
 
                 <hr>
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6 class="card-subtitle mb-2 m-0">Patient:</h6>
-                    <a class="btn btn-danger text-white">Avboka</a>
+                <div th:if="${booking.patient != null}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="card-subtitle mb-2 m-0">Patient:</h6>
+                        <a class="btn btn-danger text-white">Avboka</a>
+                    </div>
+                    <div class="p-2 shadow-sm mb-2" th:object="${booking.patient}">
+                        <div class="row row-cols-2 g-1">
+                            <div class="col col-md-3 col-lg-2 col-sm-6">
+                                <span>Personnummer:</span>
+                            </div>
+                            <div class="col">
+                                <span th:text="*{pnr}">196710114634</span>
+                            </div>
+                        </div>
+                        <div class="row row-cols-2 g-1">
+                            <div class="col col-md-3 col-lg-2 col-sm-6">
+                                <span>Namn:</span>
+                            </div>
+                            <div class="col">
+                                <span th:text="*{firstName + ' ' + lastName}">Nisse Nilsson</span>
+                            </div>
+                        </div>
+                        <div class="row row-cols-2 g-1">
+                            <div class="col col-md-3 col-lg-2 col-sm-6">
+                                <span>Epost:</span>
+                            </div>
+                            <div class="col">
+                                <span th:text="*{contactInfo.email}">nisse@gmail.com</span>
+                            </div>
+                        </div>
+                        <div class="row row-cols-2 g-1">
+                            <div class="col col-md-3 col-lg-2 col-sm-6">
+                                <span>Telefon:</span>
+                            </div>
+                            <div class="col">
+                                <span th:text="*{contactInfo.phone == null || contactInfo.phone.isEmpty()} ? 'Ej Angivet' : *{contactInfo.phone}">073-23453235</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="p-2 shadow-sm mb-2">
-                    <div class="row row-cols-2 g-1">
-                        <div class="col col-md-3 col-lg-2 col-sm-6">
-                            <span>Personnummer:</span>                        
-                        </div>
-                        <div class="col">
-                            <span>196710114634</span>
-                        </div>
-                    </div>
-                    <div class="row row-cols-2 g-1">
-                        <div class="col col-md-3 col-lg-2 col-sm-6">
-                            <span>Namn:</span>                        
-                        </div>
-                        <div class="col">
-                            <span>Nisse Nilsson</span>
-                        </div>
-                    </div>
-                    <div class="row row-cols-2 g-1">
-                        <div class="col col-md-3 col-lg-2 col-sm-6">
-                            <span>Epost:</span>                        
-                        </div>
-                        <div class="col">
-                            <span>nisse@gmail.com</span>
-                        </div>
-                    </div>
-                    <div class="row row-cols-2 g-1">
-                        <div class="col col-md-3 col-lg-2 col-sm-6">
-                            <span>Telefon:</span>                        
-                        </div>
-                        <div class="col">
-                            <span>073-23453235</span>
-                        </div>
-                    </div>
-                </div>
+
                 <hr>
                 <h6 class="card-subtitle mb-2">Plats:</h6>
-                <div class="p-2 shadow-sm mb-2">
+                <div class="p-2 shadow-sm mb-2" th:object="${booking.premises}">
                     <div class="row row-cols-2 g-1">
                         <div class="col col-md-3 col-lg-2 col-sm-6">
                             <span>Lokal:</span>                        
                         </div>
                         <div class="col">
-                            <span>Vårdcentral hälsan</span>
+                            <span th:text="*{name}">Vårdcentral hälsan</span>
                         </div>
                     </div>
                     <div class="row row-cols-2 g-1">
@@ -124,7 +127,7 @@
                             <span>Adress:</span>                        
                         </div>
                         <div class="col">
-                            <span>Storgatan 23, 35238, Växjö</span>
+                            <span th:text="|*{address.streetAddress}, *{address.zipCode}, *{address.city}|">Storgatan 23, 35238, Växjö</span>
                         </div>
                     </div>                    
                 </div>
