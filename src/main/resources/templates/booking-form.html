@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <title>Booking</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card mt-5 shadow">
+            <div class="card-header">
+                <div class="nav d-flex justify-content-between align-items-center text-center">
+                    <h4 class="m-0">Skapa bokning:</h4>
+                    <a th:href="@{/premises/{id} (id = ${premisesId})}" class="btn btn-warning btn-large text-white">Avbryt</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/premises/{id}/bookings/create/process (id = ${premisesId})}" method="post" th:object="${form}">
+                    <input type="hidden" id="bookingId" value="bookingIdValue" th:field="*{id}" th:value="*{id}">
+                    <div class="form-floating mb-2">
+                        <input class="form-control mb-2" type="text" id="vaccine" th:field="*{vaccineType}" th:value="*{vaccineType}">
+                        <label for="vaccine">Vaccin:</label>
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="datetime-local" id="dateTime" th:field="*{dateTime}" th:value="*{dateTime}">
+                            <label for="dateTime">Datum och tid:</label>
+                        </div>
+                        <div class="col-md form-floating">
+                            <input class="form-control" type="number" id="price" min="0" value="0.00" step="0.01" th:field="*{price}" th:value="*{price}">
+                            <label for="price">Pris SEK:</label>
+                        </div>
+                    </div>
+                    <div class="d-grid g-2 gap-2">
+                        <button type="submit" class="btn btn-success">Lägg till</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
