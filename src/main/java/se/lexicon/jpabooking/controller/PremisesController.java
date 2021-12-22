@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import se.lexicon.jpabooking.model.dto.form.AddressForm;
+import se.lexicon.jpabooking.model.dto.form.BookingForm;
 import se.lexicon.jpabooking.model.dto.form.PremisesForm;
 import se.lexicon.jpabooking.model.entity.Premises;
 import se.lexicon.jpabooking.service.entity.PremisesEntityService;
@@ -50,8 +51,18 @@ public class PremisesController {
         return "premises";
     }
 
-    public String addNewBooking(){
-        return "premises";
+    @GetMapping("/premises/{id}/bookings/create")
+    public String getBookingForm(@PathVariable("id") String id, Model model){
+        BookingForm form = new BookingForm();
+        model.addAttribute("form", form);
+        model.addAttribute("premisesId", id);
+        return "booking-form";
+    }
+
+    @PostMapping("/premises/{id}/bookings/create/process")
+    public String processBookingForm(@PathVariable("id") String id, @ModelAttribute(name = "form") BookingForm form){
+        premisesEntityService.addNewBooking(id, form);
+        return "redirect:/premises/"+id;
     }
 
     public String removeBooking(){

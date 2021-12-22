@@ -1,5 +1,6 @@
 package se.lexicon.jpabooking.model.dto.form;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import se.lexicon.jpabooking.validation.OnPost;
 import se.lexicon.jpabooking.validation.OnPut;
@@ -19,6 +20,7 @@ public class BookingForm implements Serializable {
 
     @NotBlank(groups = OnPut.class)
     private String id;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @NotNull(message = MANDATORY_FIELD, groups = {OnPost.class, OnPut.class})
     @FutureOrPresent(message = DATETIME_IN_PAST, groups = {OnPost.class, OnPut.class})
     private LocalDateTime dateTime;
