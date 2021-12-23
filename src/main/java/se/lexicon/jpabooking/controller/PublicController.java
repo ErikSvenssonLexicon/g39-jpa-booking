@@ -3,6 +3,9 @@ package se.lexicon.jpabooking.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +15,7 @@ import se.lexicon.jpabooking.model.dto.form.ContactInfoForm;
 import se.lexicon.jpabooking.model.dto.form.PatientForm;
 import se.lexicon.jpabooking.model.entity.Patient;
 import se.lexicon.jpabooking.service.entity.PatientEntityService;
+import se.lexicon.jpabooking.validation.OnPost;
 
 @Controller
 public class PublicController {
@@ -38,9 +42,17 @@ public class PublicController {
     }
 
     @PostMapping("/public/register/process")
-    public String processRegistration(@ModelAttribute(name = "form") PatientForm form, @RequestParam("repeat") String passwordRepeat){
-        if(form.getUserCredentials().getPassword().equals(passwordRepeat)){
-            System.out.println("Password matches!!");
+    public String processRegistration(
+            @Validated(value = OnPost.class) @ModelAttribute(name = "form") PatientForm form,
+            BindingResult bindingResult){
+
+        if(!form.getUserCredentials().getPassword().equals(form.getUserCredentials().getPasswordConfirm())){
+            FieldError fieldError = new FieldError("form", "userCredentials.passwordConfirm", "Password confirmation did not match password");
+            bindingResult.addError(fieldError);
+        }
+
+        if(bindingResult.hasErrors()){
+            return "patient-form";
         }
 
         Patient patient = patientEntityService.create(form);

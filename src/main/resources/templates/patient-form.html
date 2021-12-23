@@ -21,17 +21,44 @@
                     <h6 class="card-subtitle mb-2">Inloggningsinformation:</h6>
                     <input id="userId" type="hidden" th:value="*{userCredentials.id}" th:field="*{userCredentials.id}">
                     <div class="form-floating mb-2">
-                        <input class="form-control" type="text" id="username" th:field="*{userCredentials.username}" th:value="*{userCredentials.username}">
+                        <input class="form-control"
+                               type="text"
+                               id="username"
+                               th:field="*{userCredentials.username}"
+                               th:value="*{userCredentials.username}"
+                               th:classappend="${#fields.hasErrors('userCredentials.username')} ? 'is-invalid'"
+                        >
                         <label for="username">Användarnamn:</label>
+                        <div th:if="${#fields.hasErrors('userCredentials.username')}">
+                            <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.username')}" th:text="${error}"></p>
+                        </div>
                     </div>
                     <div class="row g-2">
                         <div class="col-md form-floating">
-                            <input class="form-control" type="password" id="password" th:field="*{userCredentials.password}" th:value="*{userCredentials.password}">
+                            <input class="form-control"
+                                   type="password"
+                                   id="password"
+                                   th:field="*{userCredentials.password}"
+                                   th:value="*{userCredentials.password}"
+                                   th:classappend="${#fields.hasErrors('userCredentials.password')} ? 'is-invalid'"
+                            >
                             <label for="password">Lösenord:</label>
+                            <div th:if="${#fields.hasErrors('userCredentials.password')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.password')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="col-md form-floating">
-                            <input class="form-control" type="password" id="repeat" name="repeat">
-                            <label for="repeat">Upprepa lösenord:</label>
+                            <input class="form-control"
+                                   type="password"
+                                   id="passwordConfirm"
+                                   th:field = "*{userCredentials.passwordConfirm}"
+                                   th:value="*{userCredentials.passwordConfirm}"
+                                   th:classappend="${#fields.hasErrors('userCredentials.passwordConfirm')} ? 'is-invalid'"
+                            >
+                            <label for="passwordConfirm">Upprepa lösenord:</label>
+                            <div th:if="${#fields.hasErrors('userCredentials.passwordConfirm')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.passwordConfirm')}" th:text="${error}"></p>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -39,22 +66,59 @@
                     <input id="patientId" type="hidden" th:value="*{id}" th:field="*{id}">
                     <div class="row g-2 mb-2">
                         <div class="col-md form-floating">
-                            <input class="form-control" type="text" id="pnr" th:field="*{pnr}" th:value="*{pnr}">
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    id="pnr"
+                                    th:field="*{pnr}"
+                                    th:value="*{pnr}"
+                                    th:classappend="${#fields.hasErrors('pnr')} ? 'is-invalid'"
+                            >
                             <label for="pnr">Personnummer:</label>
+                            <div th:if="${#fields.hasErrors('pnr')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('pnr')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="col-md form-floating">
-                            <input class="form-control" type="date" id=birthDate th:field="*{birthDate}" th:value="*{birthDate}">
+                            <input class="form-control"
+                                   type="date"
+                                   id=birthDate
+                                   th:field="*{birthDate}"
+                                   th:value="*{birthDate}"
+                                   th:classappend="${#fields.hasErrors('birthDate')} ? 'is-invalid'"
+                            >
                             <label for="birthDate">Födelsedatum:</label>
+                            <div th:if="${#fields.hasErrors('birthDate')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('birthDate')}" th:text="${error}"></p>
+                            </div>
                         </div>
                     </div>                   
                     <div class="row g-2 mb-2">
                         <div class="col-md form-floating">
-                            <input class="form-control" type="text" id="firstName" th:field="*{firstName}" th:value="*{firstName}">
+                            <input class="form-control"
+                                   type="text"
+                                   id="firstName"
+                                   th:field="*{firstName}"
+                                   th:value="*{firstName}"
+                                   th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'"
+                            >
                             <label for="firstName">Tilltalsnamn:</label>
+                            <div th:if="${#fields.hasErrors('firstName')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('firstName')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="col-md form-floating">
-                            <input class="form-control" type="text" id="lastName" th:field="*{lastName}" th:value="*{lastName}">
+                            <input class="form-control"
+                                   type="text"
+                                   id="lastName"
+                                   th:field="*{lastName}"
+                                   th:value="*{lastName}"
+                                   th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'"
+                            >
                             <label for="lastName">Efternamn:</label>
+                            <div th:if="${#fields.hasErrors('lastName')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></p>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -62,12 +126,30 @@
                     <input id="contactInfoId" type="hidden" th:value="*{contactInfo.id}" th:field="*{contactInfo.id}">
                     <div class="row g-2 mb-2">
                         <div class="col-md form-floating">
-                            <input class="form-control" type="email" id="email" th:field="*{contactInfo.email}" th:value="*{contactInfo.email}">
+                            <input class="form-control"
+                                   type="email"
+                                   id="email"
+                                   th:field="*{contactInfo.email}"
+                                   th:value="*{contactInfo.email}"
+                                   th:classappend="${#fields.hasErrors('contactInfo.email')} ? 'is-invalid'"
+                            >
                             <label for="email">Epost:</label>
+                            <div th:if="${#fields.hasErrors('contactInfo.email')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('contactInfo.email')}" th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="col-md form-floating">
-                            <input class="form-control" type="text" id="phone" th:field="*{contactInfo.phone}" th:value="*{contactInfo.phone}">
+                            <input class="form-control"
+                                   type="text"
+                                   id="phone"
+                                   th:field="*{contactInfo.phone}"
+                                   th:value="*{contactInfo.phone}"
+                                   th:classappend="${#fields.hasErrors('contactInfo.phone')} ? 'is-invalid'"
+                            >
                             <label for="phone">Telefon:</label>
+                            <div th:if="${#fields.hasErrors('contactInfo.phone')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('contactInfo.phone')}" th:text="${error}"></p>
+                            </div>
                         </div>
                     </div>
                     <hr>

@@ -30,6 +30,10 @@
                      th:each="booking : ${patient.vaccineBookings}"
                 >
                     <div class="col">
+                        <div th:replace="fragments/fragments.html :: bookingCard">
+
+                        </div>
+                        <!--
                         <div class="card shadow">
                           <div class="card-header">
                             <h5 class="card-title text-center m-0" th:text="${booking.dateTime}">2022-02-13 @13:00</h5>
@@ -58,7 +62,8 @@
                               <a th:href="@{/patients/{id}/bookings/cancel (id = ${patient.id}, bookingId = ${booking.id})}" class="col col-sm-12 col-md-5 btn btn-warning text-white">Avboka</a>
                             </div>                             
                           </div>
-                        </div>
+                        </div> -->
+
                     </div>                                          
                 </div>
             </div>
