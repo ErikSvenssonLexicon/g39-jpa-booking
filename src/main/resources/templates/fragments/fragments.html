@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <title>fragments</title>
+</head>
+<body>
+
+    <div th:fragment="bookingCard" class="card shadow">
+        <div class="card-header">
+            <h5 class="card-title text-center m-0" th:text="${booking.dateTime}">2022-02-13 @13:00</h5>
+        </div>
+        <div class="card-body">
+            <h5 class="card-subtitle mb-1">Uppgifter:</h5>
+            <div class="row row-cols-2">
+                <div class="col">
+                    <span class="card-text">Pris:</span>
+                </div>
+                <div class="col">
+                    <span class="card-text" th:text="${booking.price + ' SEK'}">499 SEK</span>
+                </div>
+            </div>
+            <div class="row row-cols-2">
+                <div class="col">
+                    <span class="card-text">Vaccin:</span>
+                </div>
+                <div class="col">
+                    <span class="card-text" th:text="${booking.vaccineType}">Covid 19</span>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 gap-2 mt-1 mx-auto justify-content-md-evenly">
+                <a th:href="@{/bookings/{id}(id = ${booking.id})}" class="col col-sm-12 col-md-5 btn btn-info text-white">Detaljer</a>
+                <a th:href="@{/patients/{id}/bookings/cancel (id = ${patient.id}, bookingId = ${booking.id})}" class="col col-sm-12 col-md-5 btn btn-warning text-white">Avboka</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

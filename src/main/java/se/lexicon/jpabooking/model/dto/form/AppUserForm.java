@@ -25,6 +25,9 @@ public class AppUserForm implements Serializable {
     @Pattern(message = WEAK_PASSWORD, regexp = PASSWORD_REGEX, groups = OnPost.class)
     private String password;
 
+
+    private String passwordConfirm;
+
     public AppUserForm() {
     }
 
@@ -50,5 +53,13 @@ public class AppUserForm implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 }
