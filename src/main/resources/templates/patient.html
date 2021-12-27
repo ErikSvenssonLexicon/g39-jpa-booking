@@ -49,7 +49,7 @@
                             <a class="nav-link active text-center">Hem</a>
                         </li>
                         <li class="col nav-item">
-                            <a class="nav-link text-center">Uppdatera</a>
+                            <a th:href="@{/patients/{id}/update (id = ${patient.id})}" class="nav-link text-center">Uppdatera</a>
                         </li>
                         <li class="col nav-item">
                             <a class="nav-link text-center">Användare</a>
