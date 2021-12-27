@@ -26,7 +26,7 @@ public class Patient {
     private LocalDate birthDate;
     @OneToOne(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinColumn(name = "fk_contact_info_id")
     private ContactInfo contactInfo;

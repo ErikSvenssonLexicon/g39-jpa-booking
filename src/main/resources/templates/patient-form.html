@@ -12,56 +12,60 @@
         <div class="card mt-5">
             <div class="card-header">
                 <div class="nav d-flex justify-content-between align-items-center text-center">
-                    <h4 class="m-0">Registrering:</h4>
+                    <h4 class="m-0" th:text="${action == 'POST' ? 'Registrering:' : 'Uppdatering:'} ">Registrering:</h4>
                     <a th:href="@{/index}" class="btn btn-warning btn-large text-white">Avbryt</a>
                 </div>
             </div>
             <div class="card-body">
-                <form method="post" th:action="@{/public/register/process}" th:object="${form}" >
-                    <h6 class="card-subtitle mb-2">Inloggningsinformation:</h6>
-                    <input id="userId" type="hidden" th:value="*{userCredentials.id}" th:field="*{userCredentials.id}">
-                    <div class="form-floating mb-2">
-                        <input class="form-control"
-                               type="text"
-                               id="username"
-                               th:field="*{userCredentials.username}"
-                               th:value="*{userCredentials.username}"
-                               th:classappend="${#fields.hasErrors('userCredentials.username')} ? 'is-invalid'"
-                        >
-                        <label for="username">Användarnamn:</label>
-                        <div th:if="${#fields.hasErrors('userCredentials.username')}">
-                            <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.username')}" th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col-md form-floating">
+                <form method="post" th:action="@{${actionUrl}}" th:object="${form}" >
+                    <div th:if="${action == 'POST'}">
+                        <h6 class="card-subtitle mb-2">Inloggningsinformation:</h6>
+                        <input id="userId" type="hidden" th:value="*{userCredentials.id}" th:field="*{userCredentials.id}">
+                        <div class="form-floating mb-2">
                             <input class="form-control"
-                                   type="password"
-                                   id="password"
-                                   th:field="*{userCredentials.password}"
-                                   th:value="*{userCredentials.password}"
-                                   th:classappend="${#fields.hasErrors('userCredentials.password')} ? 'is-invalid'"
+                                   type="text"
+                                   id="username"
+                                   th:field="*{userCredentials.username}"
+                                   th:value="*{userCredentials.username}"
+                                   th:classappend="${#fields.hasErrors('userCredentials.username')} ? 'is-invalid'"
                             >
-                            <label for="password">Lösenord:</label>
-                            <div th:if="${#fields.hasErrors('userCredentials.password')}">
-                                <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.password')}" th:text="${error}"></p>
+                            <label for="username">Användarnamn:</label>
+                            <div th:if="${#fields.hasErrors('userCredentials.username')}">
+                                <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.username')}" th:text="${error}"></p>
                             </div>
                         </div>
-                        <div class="col-md form-floating">
-                            <input class="form-control"
-                                   type="password"
-                                   id="passwordConfirm"
-                                   th:field = "*{userCredentials.passwordConfirm}"
-                                   th:value="*{userCredentials.passwordConfirm}"
-                                   th:classappend="${#fields.hasErrors('userCredentials.passwordConfirm')} ? 'is-invalid'"
-                            >
-                            <label for="passwordConfirm">Upprepa lösenord:</label>
-                            <div th:if="${#fields.hasErrors('userCredentials.passwordConfirm')}">
-                                <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.passwordConfirm')}" th:text="${error}"></p>
+                        <div class="row g-2">
+                            <div class="col-md form-floating">
+                                <input class="form-control"
+                                       type="password"
+                                       id="password"
+                                       th:field="*{userCredentials.password}"
+                                       th:value="*{userCredentials.password}"
+                                       th:classappend="${#fields.hasErrors('userCredentials.password')} ? 'is-invalid'"
+                                >
+                                <label for="password">Lösenord:</label>
+                                <div th:if="${#fields.hasErrors('userCredentials.password')}">
+                                    <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.password')}" th:text="${error}"></p>
+                                </div>
+                            </div>
+                            <div class="col-md form-floating">
+                                <input class="form-control"
+                                       type="password"
+                                       id="passwordConfirm"
+                                       th:field = "*{userCredentials.passwordConfirm}"
+                                       th:value="*{userCredentials.passwordConfirm}"
+                                       th:classappend="${#fields.hasErrors('userCredentials.passwordConfirm')} ? 'is-invalid'"
+                                >
+                                <label for="passwordConfirm">Upprepa lösenord:</label>
+                                <div th:if="${#fields.hasErrors('userCredentials.passwordConfirm')}">
+                                    <p class="text-danger" th:each="error : ${#fields.errors('userCredentials.passwordConfirm')}" th:text="${error}"></p>
+                                </div>
                             </div>
                         </div>
+                        <hr>
                     </div>
-                    <hr>
+
+
                     <h6 class="card-subtitle mb-2">Patient uppgifter:</h6>
                     <input id="patientId" type="hidden" th:value="*{id}" th:field="*{id}">
                     <div class="row g-2 mb-2">

@@ -38,6 +38,8 @@ public class PublicController {
         form.setContactInfo(new ContactInfoForm());
         form.setUserCredentials(new AppUserForm());
         model.addAttribute("form", form);
+        model.addAttribute("action", "POST");
+        model.addAttribute("actionUrl", "/public/register/process");
         return "patient-form";
     }
 
