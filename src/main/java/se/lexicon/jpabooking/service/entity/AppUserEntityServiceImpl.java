@@ -1,6 +1,8 @@
 package se.lexicon.jpabooking.service.entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.database.AppRoleDAO;
@@ -19,11 +21,13 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
 
     private final AppUserDAO appUserDAO;
     private final AppRoleDAO appRoleDAO;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AppUserEntityServiceImpl(AppUserDAO appUserDAO, AppRoleDAO appRoleDAO) {
+    public AppUserEntityServiceImpl(AppUserDAO appUserDAO, AppRoleDAO appRoleDAO, PasswordEncoder passwordEncoder) {
         this.appUserDAO = appUserDAO;
         this.appRoleDAO = appRoleDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,7 +48,9 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
         }
         AppUser appUser = new AppUser();
         appUser.setUsername(appUserForm.getUsername());
-        appUser.setPassword(appUserForm.getPassword());
+        appUser.setPassword(
+                passwordEncoder.encode(appUserForm.getPassword())
+        );
         AppRole role = appRoleDAO.findByUserRole(UserRole.ROLE_PATIENT_USER)
                 .orElseThrow(() -> new AppResourceNotFoundException("Could not find AppRole"));
         appUser.addAppRole(role);

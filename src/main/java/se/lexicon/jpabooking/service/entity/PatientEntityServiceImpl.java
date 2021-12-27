@@ -47,7 +47,9 @@ public class PatientEntityServiceImpl implements PatientEntityService{
                 contactInfoEntityService.create(patientForm.getContactInfo())
         );
 
-        return patientDAO.save(patient);
+        patient =  patientDAO.save(patient);
+        patient.getUserCredentials().setPatient(patient);
+        return patient;
     }
 
     @Override
