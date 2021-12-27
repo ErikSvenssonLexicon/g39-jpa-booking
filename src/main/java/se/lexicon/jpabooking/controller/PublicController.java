@@ -32,6 +32,11 @@ public class PublicController {
         return "index";
     }
 
+    @GetMapping("/public/login")
+    public String getLoginForm(){
+        return "login";
+    }
+
     @GetMapping("/public/register")
     public String getRegisterPatientForm(Model model){
         PatientForm form = new PatientForm();

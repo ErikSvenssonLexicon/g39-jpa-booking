@@ -12,12 +12,12 @@
         <div class="card mt-5">
             <div class="card-header">
                 <div class="nav d-flex justify-content-between align-items-center text-center">
-                    <h4 class="m-0" th:text="${action == 'POST' ? 'Registrering:' : 'Uppdatering:'} ">Registrering:</h4>
+                    <h4 class="m-0">Registrering:</h4>
                     <a th:href="@{/index}" class="btn btn-warning btn-large text-white">Avbryt</a>
                 </div>
             </div>
             <div class="card-body">
-                <form method="post" th:action="@{${actionUrl}}" th:object="${form}" >
+                <form method="post" th:action="@{/public/register/process}" th:object="${form}" >
                     <div th:if="${action == 'POST'}">
                         <h6 class="card-subtitle mb-2">Inloggningsinformation:</h6>
                         <input id="userId" type="hidden" th:value="*{userCredentials.id}" th:field="*{userCredentials.id}">

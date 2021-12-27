@@ -28,6 +28,12 @@ public class AppUser {
     )
     private Set<AppRole> roles;
 
+    @OneToOne(
+            cascade = {CascadeType.REFRESH, CascadeType.DETACH},
+            mappedBy = "userCredentials"
+    )
+    private Patient patient;
+
     public AppUser(String id, String username, String password) {
         this.id = id;
         this.username = username;
@@ -64,6 +70,14 @@ public class AppUser {
     public Set<AppRole> getRoles() {
         if(roles == null) roles = new HashSet<>();
         return roles;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public void setRoles(Set<AppRole> roles) {
