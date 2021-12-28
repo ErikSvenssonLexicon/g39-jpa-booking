@@ -24,27 +24,23 @@ public class BookingDAOImpl implements BookingDAO{
 
     @Override
     public List<Booking> findByDateTimeBetween(LocalDateTime start, LocalDateTime end) {
-        Timestamp timeStart = Timestamp.valueOf(start);
-        Timestamp timeEnd = Timestamp.valueOf(end);
         return entityManager.createQuery("SELECT b FROM Booking b WHERE b.dateTime BETWEEN :startTime AND :endTime", Booking.class)
-                .setParameter("startTime", timeStart)
-                .setParameter("endTime", timeEnd)
+                .setParameter("startTime", start)
+                .setParameter("endTime", end)
                 .getResultList();
     }
 
     @Override
     public List<Booking> findByDateTimeBefore(LocalDateTime end) {
-        Timestamp timeEnd = Timestamp.valueOf(end);
-        return entityManager.createQuery("SELECT b FROM Booking b WHERE b.dateTime <= :timeEnd", Booking.class)
-                .setParameter("timeEnd", timeEnd)
+        return entityManager.createQuery("SELECT b FROM Booking b WHERE b.dateTime < :timeEnd", Booking.class)
+                .setParameter("timeEnd", end)
                 .getResultList();
     }
 
     @Override
     public List<Booking> findByDateTimeAfter(LocalDateTime start) {
-        Timestamp timeStart = Timestamp.valueOf(start);
-        return entityManager.createQuery("SELECT b FROM Booking b WHERE b.dateTime >= :timeStart", Booking.class)
-                .setParameter("timeStart", timeStart)
+        return entityManager.createQuery("SELECT b FROM Booking b WHERE b.dateTime > :timeStart", Booking.class)
+                .setParameter("timeStart", start)
                 .getResultList();
     }
 
