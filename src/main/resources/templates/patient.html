@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,6 +24,7 @@
                     </div>                            
                 </div>
                 <div class="card-body">
+                    <div sec:authentication="name"></div>
                     <h4 class="card-subtitle">Patient:</h4>                   
                     <div class="row">
                         <span th:text="|Namn: ${patient.firstName + ' ' + patient.lastName}|">Namn: Nisse Nilsson</span>
@@ -48,16 +49,16 @@
                         <li class="col nav-item">
                             <a class="nav-link active text-center">Hem</a>
                         </li>
-                        <li class="col nav-item">
+                        <li sec:authorize="hasAnyRole('SUPER_ADMIN', 'PATIENT_USER')" class="col nav-item">
                             <a th:href="@{/patients/{id}/update (id = ${patient.id})}" class="nav-link text-center">Uppdatera</a>
                         </li>
                         <li class="col nav-item">
                             <a class="nav-link text-center">Användare</a>
                         </li>
-                        <li class="col nav-item">
+                        <li sec:authorize="hasAnyRole('SUPER_ADMIN', 'PATIENT_USER')" class="col nav-item">
                             <a th:href="@{/patients/{id}/bookings(id = ${patient.id})}" class="nav-link text-center">Bokningar</a>
                         </li>
-                        <li class="col nav-item">
+                        <li sec:authorize="hasRole('PATIENT_USER')" class="col nav-item">
                             <a class="nav-link text-center">Sök tider</a>
                         </li>                       
                     </ul>

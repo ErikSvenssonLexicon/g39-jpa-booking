@@ -1,6 +1,7 @@
 package se.lexicon.jpabooking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,18 +26,21 @@ public class PatientController {
         this.patientEntityService = patientEntityService;
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('PREMISES_ADMIN','SUPER_ADMIN')")
     @GetMapping("/patients/{id}")
     public String findPatientById(@PathVariable("id") String id, Model model){
         model.addAttribute("patient", patientEntityService.findById(id));
         return "patient";
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('PREMISES_ADMIN','SUPER_ADMIN')")
     @GetMapping("/patients/{id}/bookings")
     public String findBookingsByPatientId(@PathVariable("id") String id, Model model){
         model.addAttribute("patient", patientEntityService.findById(id));
         return "patient-bookings";
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasRole('SUPER_ADMIN')")
     @GetMapping("/patients/{id}/update")
     public String getUpdateForm(@PathVariable("id") String id, Model model){
         Patient patient = patientEntityService.findById(id);
@@ -60,6 +64,7 @@ public class PatientController {
         return "patient-form";
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasRole('SUPER_ADMIN')")
     @PostMapping("/patients/{id}/update/process")
     public String processUpdate(@PathVariable(name = "id") String id,
                                 @Validated(value = OnPut.class) @ModelAttribute(name = "form") PatientForm form,

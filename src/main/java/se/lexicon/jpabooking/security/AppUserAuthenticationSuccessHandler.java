@@ -13,7 +13,13 @@ import java.io.IOException;
 public class AppUserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
         BookingUserDetails bookingUserDetails = (BookingUserDetails) authentication.getPrincipal();
-        response.sendRedirect("/patients/"+bookingUserDetails.getPatientId());
+
+        if(bookingUserDetails.getPatientId() != null){
+            response.sendRedirect("/patients/"+bookingUserDetails.getPatientId());
+        }else{
+            response.sendRedirect("/index");
+        }
     }
 }

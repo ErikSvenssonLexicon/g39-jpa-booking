@@ -36,8 +36,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(role.getUserRole().name()));
         }
 
+        String patientId = appUser.getPatient() == null ? null : appUser.getPatient().getId();
+
         return new BookingUserDetails(
-                appUser.getPatient().getId(),
+                patientId,
                 appUser.getId(),
                 appUser.getUsername(),
                 appUser.getPassword(),

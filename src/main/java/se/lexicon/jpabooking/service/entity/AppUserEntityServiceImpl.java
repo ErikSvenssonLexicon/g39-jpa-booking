@@ -1,7 +1,6 @@
 package se.lexicon.jpabooking.service.entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,16 +45,36 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
         if(appUserForm == null){
             throw new IllegalArgumentException("AppUserForm was null");
         }
+        return internalCreate(appUserForm, UserRole.ROLE_PATIENT_USER);
+    }
+
+    public AppUser internalCreate(AppUserForm appUserForm, UserRole userRole){
         AppUser appUser = new AppUser();
         appUser.setUsername(appUserForm.getUsername());
         appUser.setPassword(
                 passwordEncoder.encode(appUserForm.getPassword())
         );
-        AppRole role = appRoleDAO.findByUserRole(UserRole.ROLE_PATIENT_USER)
+        AppRole role = appRoleDAO.findByUserRole(userRole)
                 .orElseThrow(() -> new AppResourceNotFoundException("Could not find AppRole"));
         appUser.addAppRole(role);
 
         return appUserDAO.save(appUser);
+    }
+
+    @Override
+    public AppUser createAdminUser(AppUserForm appUserForm){
+        if(appUserForm == null){
+            throw new IllegalArgumentException("AppUserForm was null");
+        }
+        return internalCreate(appUserForm, UserRole.ROLE_SUPER_ADMIN);
+    }
+
+    @Override
+    public AppUser createPremisesAdmin(AppUserForm appUserForm){
+        if(appUserForm == null){
+            throw new IllegalArgumentException("AppUserForm was null");
+        }
+        return internalCreate(appUserForm, UserRole.ROLE_PREMISES_ADMIN);
     }
 
     @Override

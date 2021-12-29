@@ -10,4 +10,7 @@ public interface AppUserEntityService extends GenericEntityService<AppUser, AppU
     AppUser findByUsername(String username);
     List<AppUser> findByUserRole(UserRole role);
 
+    AppUser createAdminUser(AppUserForm appUserForm);
+
+    AppUser createPremisesAdmin(AppUserForm appUserForm);
 }

@@ -1,6 +1,7 @@
 package se.lexicon.jpabooking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class PremisesController {
         return null;
     }
 
+    @PreAuthorize("#hasAnyRole('PREMISES_ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/premises/create")
     public String create(Model model){
         PremisesForm form = new PremisesForm();
@@ -35,6 +37,7 @@ public class PremisesController {
         return "premises-form";
     }
 
+    @PreAuthorize("#hasAnyRole('PREMISES_ADMIN', 'SUPER_ADMIN')")
     @PostMapping("/premises/create/process")
     public String processForm(@ModelAttribute("form") PremisesForm form){
         Premises premises = premisesEntityService.create(form);
@@ -51,6 +54,7 @@ public class PremisesController {
         return "premises";
     }
 
+    @PreAuthorize("#hasAnyRole('PREMISES_ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/premises/{id}/bookings/create")
     public String getBookingForm(@PathVariable("id") String id, Model model){
         BookingForm form = new BookingForm();
@@ -59,6 +63,7 @@ public class PremisesController {
         return "booking-form";
     }
 
+    @PreAuthorize("#hasAnyRole('PREMISES_ADMIN', 'SUPER_ADMIN')")
     @PostMapping("/premises/{id}/bookings/create/process")
     public String processBookingForm(@PathVariable("id") String id, @ModelAttribute(name = "form") BookingForm form){
         premisesEntityService.addNewBooking(id, form);
