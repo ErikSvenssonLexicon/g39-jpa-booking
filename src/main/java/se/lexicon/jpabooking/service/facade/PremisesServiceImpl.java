@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 public class PremisesServiceImpl implements PremisesService{
 
     private final PremisesEntityService premisesEntityService;
-    private final EntityToDTOConverter dtoConverter;
+    private final DTOService dtoConverter;
 
     @Autowired
-    public PremisesServiceImpl(PremisesEntityService premisesEntityService, EntityToDTOConverter dtoConverter) {
+    public PremisesServiceImpl(PremisesEntityService premisesEntityService, DTOService dtoConverter) {
         this.premisesEntityService = premisesEntityService;
         this.dtoConverter = dtoConverter;
     }
