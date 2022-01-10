@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PatientDAO extends DAOGenericCRUD<Patient, String>{
+    Optional<Patient> findByUsername(String username);
     Optional<Patient> findByPnr(String pnr);
     List<Patient> searchByName(String name);
 }

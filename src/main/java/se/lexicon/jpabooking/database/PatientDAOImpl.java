@@ -41,6 +41,15 @@ public class PatientDAOImpl implements PatientDAO{
 
     @Override
     @Transactional(readOnly = true)
+    public Optional<Patient> findByUsername(String username) {
+        return entityManager.createQuery("SELECT p FROM Patient p WHERE UPPER(p.userCredentials.username) = UPPER(:username)", Patient.class)
+                .setParameter("username", username)
+                .getResultStream()
+                .findFirst();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Patient> findByPnr(String pnr) {
         return entityManager.createQuery("SELECT p FROM Patient p WHERE p.pnr = :pnr", Patient.class)
                 .setParameter("pnr", pnr.replaceAll(" ", "").replaceAll("-", "").trim())
