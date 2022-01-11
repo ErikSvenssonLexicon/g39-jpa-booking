@@ -9,5 +9,6 @@ import java.util.List;
 public interface AppUserEntityService extends GenericEntityService<AppUser, AppUserForm> {
     AppUser findByUsername(String username);
     List<AppUser> findByUserRole(UserRole role);
+    AppUser create(AppUserForm form, UserRole role);
 
 }

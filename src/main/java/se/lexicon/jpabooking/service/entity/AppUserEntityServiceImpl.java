@@ -38,18 +38,26 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
     }
 
     @Override
-    public AppUser create(AppUserForm appUserForm) {
+    public AppUser create(AppUserForm appUserForm, UserRole role) {
         if(appUserForm == null){
             throw new IllegalArgumentException("AppUserForm was null");
         }
         AppUser appUser = new AppUser();
         appUser.setUsername(appUserForm.getUsername());
         appUser.setPassword(appUserForm.getPassword());
-        AppRole role = appRoleDAO.findByUserRole(UserRole.ROLE_PATIENT_USER)
+        AppRole appRole = appRoleDAO.findByUserRole(role)
                 .orElseThrow(() -> new AppResourceNotFoundException("Could not find AppRole"));
-        appUser.addAppRole(role);
+        appUser.addAppRole(appRole);
 
         return appUserDAO.save(appUser);
+    }
+
+    @Override
+    public AppUser create(AppUserForm appUserForm) {
+        if(appUserForm == null){
+            throw new IllegalArgumentException("AppUserForm was null");
+        }
+        return create(appUserForm, UserRole.ROLE_PATIENT_USER);
     }
 
     @Override
