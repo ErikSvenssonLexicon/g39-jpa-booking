@@ -106,4 +106,25 @@ public class EntityToDTOConverter implements DTOService{
         return contactInfoDTO;
     }
 
+    @Override
+    public AppUserDTO toFullAppUserDTO(AppUser appUser) {
+        if(appUser == null) return null;
+        AppUserDTO appUserDTO = toSmallAppUserDTO(appUser);
+        appUserDTO.setRoles(
+                appUser.getRoles().stream()
+                        .map(AppRole::getUserRole)
+                        .collect(Collectors.toList())
+        );
+        return appUserDTO;
+    }
+
+    @Override
+    public AppUserDTO toSmallAppUserDTO(AppUser appUser) {
+        if(appUser == null) return null;
+        AppUserDTO appUserDTO = new AppUserDTO();
+        appUserDTO.setId(appUser.getId());
+        appUserDTO.setUsername(appUser.getUsername());
+        return appUserDTO;
+    }
+
 }

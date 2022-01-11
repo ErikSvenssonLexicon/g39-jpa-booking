@@ -19,4 +19,8 @@ public interface DTOService {
     PatientDTO toSmallPatientDTO(Patient patient);
 
     ContactInfoDTO toContactInfoDTO(ContactInfo contactInfo);
+
+    AppUserDTO toFullAppUserDTO(AppUser appUser);
+
+    AppUserDTO toSmallAppUserDTO(AppUser appUser);
 }
