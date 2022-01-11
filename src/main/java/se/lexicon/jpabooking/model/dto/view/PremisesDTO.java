@@ -10,7 +10,7 @@ public class PremisesDTO implements Serializable {
     private String name;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private AddressDTO address;
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<BookingDTO> bookings;
 
     public PremisesDTO(String id, String name, AddressDTO address, List<BookingDTO> bookings) {
