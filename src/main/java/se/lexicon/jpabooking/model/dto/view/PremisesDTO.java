@@ -1,7 +1,6 @@
 package se.lexicon.jpabooking.model.dto.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import se.lexicon.jpabooking.model.entity.Address;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +10,7 @@ public class PremisesDTO implements Serializable {
     private String name;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private AddressDTO address;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<BookingDTO> bookings;
 
     public PremisesDTO(String id, String name, AddressDTO address, List<BookingDTO> bookings) {

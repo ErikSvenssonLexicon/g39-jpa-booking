@@ -15,7 +15,7 @@ public class PatientDTO implements Serializable {
     private LocalDate birthDate;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ContactInfoDTO contactInfo;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<BookingDTO> vaccineBookings;
 
     public PatientDTO(String id, String pnr, String firstName, String lastName, LocalDate birthDate, ContactInfoDTO contactInfo, List<BookingDTO> vaccineBookings) {
