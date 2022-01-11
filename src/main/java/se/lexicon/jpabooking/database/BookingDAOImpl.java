@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.model.entity.Booking;
 
 import javax.persistence.EntityManager;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

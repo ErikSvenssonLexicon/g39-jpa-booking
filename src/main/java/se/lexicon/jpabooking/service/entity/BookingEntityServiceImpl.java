@@ -7,8 +7,6 @@ import se.lexicon.jpabooking.database.BookingDAO;
 import se.lexicon.jpabooking.exception.AppResourceNotFoundException;
 import se.lexicon.jpabooking.model.dto.form.BookingForm;
 import se.lexicon.jpabooking.model.entity.Booking;
-
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
