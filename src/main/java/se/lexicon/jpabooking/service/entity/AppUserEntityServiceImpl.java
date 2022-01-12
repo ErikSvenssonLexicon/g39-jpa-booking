@@ -109,6 +109,6 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
     public void delete(String id) {
         AppUser appUser = findById(id);
         appUser.setRoles(null);
-        appUserDAO.delete(id);
+        appUserDAO.deleteById(id);
     }
 }

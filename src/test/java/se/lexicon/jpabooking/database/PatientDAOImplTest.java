@@ -3,12 +3,9 @@ package se.lexicon.jpabooking.database;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.model.entity.Patient;
 
 import java.time.LocalDate;
@@ -19,10 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureTestDatabase
-@AutoConfigureTestEntityManager
-@Transactional
+@DataJpaTest
 class PatientDAOImplTest {
 
     public static final String PNR = "199001011212";
@@ -30,7 +24,7 @@ class PatientDAOImplTest {
     public static final String LAST_NAME = "Olsson";
     public static final LocalDate BIRTH_DATE = LocalDate.parse("1990-01-01");
     @Autowired
-    private PatientDAOImpl testObject;
+    private PatientDAO testObject;
     @Autowired
     private TestEntityManager em;
 
@@ -95,7 +89,7 @@ class PatientDAOImplTest {
 
     @Test
     void findByPnr() {
-        String pnr = "1990 01 01-1212";
+        String pnr = "199001011212";
         Optional<Patient> result = testObject.findByPnr(pnr);
         assertTrue(result.isPresent());
     }
@@ -121,7 +115,7 @@ class PatientDAOImplTest {
     @Test
     void delete() {
         String id = persistedPatients.get(0).getId();
-        testObject.delete(id);
+        testObject.deleteById(id);
 
         assertNull(em.find(Patient.class, id));
     }

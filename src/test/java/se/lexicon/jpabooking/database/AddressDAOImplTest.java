@@ -3,12 +3,8 @@ package se.lexicon.jpabooking.database;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.model.entity.Address;
 
 import java.util.Arrays;
@@ -18,18 +14,14 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureTestDatabase
-@AutoConfigureTestEntityManager
-@Transactional
-@DirtiesContext
+@DataJpaTest
 class AddressDAOImplTest {
 
     public static final String STREET_ADDRESS = "Storgatan 1";
     public static final String ZIP_CODE = "35236";
     public static final String CITY = "Växjö";
     @Autowired
-    private AddressDAOImpl testObject;
+    private AddressDAO testObject;
     @Autowired
     private TestEntityManager em;
 
@@ -77,7 +69,7 @@ class AddressDAOImplTest {
 
     @Test
     void delete() {
-        testObject.delete(address.getId());
+        testObject.deleteById(address.getId());
         assertNull(em.find(Address.class, address.getId()));
     }
 }

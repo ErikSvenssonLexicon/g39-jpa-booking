@@ -64,6 +64,6 @@ public class ContactInfoEntityServiceImpl implements ContactInfoEntityService{
 
     @Override
     public void delete(String id) {
-        contactInfoDAO.delete(id);
+        contactInfoDAO.deleteById(id);
     }
 }

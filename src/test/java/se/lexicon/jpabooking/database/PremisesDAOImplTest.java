@@ -3,12 +3,8 @@ package se.lexicon.jpabooking.database;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.model.entity.Address;
 import se.lexicon.jpabooking.model.entity.Premises;
 
@@ -18,16 +14,12 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureTestDatabase
-@AutoConfigureTestEntityManager
-@Transactional
-@DirtiesContext
+@DataJpaTest
 class PremisesDAOImplTest {
 
     public static final String NAME = "Norr";
     @Autowired
-    private PremisesDAOImpl testObject;
+    private PremisesDAO testObject;
     @Autowired
     private TestEntityManager em;
 
@@ -93,7 +85,7 @@ class PremisesDAOImplTest {
 
     @Test
     void delete() {
-        testObject.delete(premises.getId());
+        testObject.deleteById(premises.getId());
         assertNull(em.find(Premises.class, premises.getId()));
     }
 }

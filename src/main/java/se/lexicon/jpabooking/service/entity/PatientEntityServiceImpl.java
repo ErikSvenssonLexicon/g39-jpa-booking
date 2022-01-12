@@ -83,12 +83,12 @@ public class PatientEntityServiceImpl implements PatientEntityService{
     public void delete(String id) {
         Patient patient = findById(id);
         patient.setVaccineBookings(null);
-        patientDAO.delete(id);
+        patientDAO.deleteById(id);
     }
 
     @Override
     public Patient findByPnr(String pnr) {
-        return patientDAO.findByPnr(pnr)
+        return patientDAO.findByPnr(pnr.replaceAll(" ","").replaceAll("-","").trim())
                 .orElseThrow(() -> new AppResourceNotFoundException("Could not find Patient with provided pnr"));
     }
 

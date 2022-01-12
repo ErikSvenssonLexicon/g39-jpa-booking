@@ -74,6 +74,7 @@ public class PremisesEntityServiceImpl implements PremisesEntityService{
         if (premises.getAddress() != null && premisesDAO.countUsagesByAddressId(premises.getAddress().getId()) > 1){
             addressEntityService.delete(premises.getAddress().getId());
         }
+        premisesDAO.deleteById(id);
     }
 
     @Override

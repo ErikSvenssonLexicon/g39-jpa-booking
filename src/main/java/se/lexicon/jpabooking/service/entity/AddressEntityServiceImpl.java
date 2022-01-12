@@ -49,6 +49,6 @@ public class AddressEntityServiceImpl implements AddressEntityService{
 
     @Override
     public void delete(String id) {
-        addressDAO.delete(id);
+        addressDAO.deleteById(id);
     }
 }

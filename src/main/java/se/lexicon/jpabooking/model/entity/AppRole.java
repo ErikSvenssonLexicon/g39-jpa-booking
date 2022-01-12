@@ -19,6 +19,7 @@ public class AppRole {
     @GenericGenerator(name = GENERATOR, strategy = UUID_GENERATOR)
     @Column(updatable = false)
     private String id;
+    @Column(unique = true)
     private UserRole userRole;
     @ManyToMany(
             cascade = {CascadeType.REFRESH, CascadeType.DETACH},

@@ -99,6 +99,6 @@ public class BookingEntityServiceImpl implements BookingEntityService{
         Booking booking = findById(id);
         booking.setPatient(null);
         booking.setPremises(null);
-        bookingDAO.delete(id);
+        bookingDAO.deleteById(id);
     }
 }

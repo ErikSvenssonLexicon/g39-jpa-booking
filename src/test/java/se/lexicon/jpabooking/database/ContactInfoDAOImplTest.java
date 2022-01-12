@@ -3,12 +3,8 @@ package se.lexicon.jpabooking.database;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.model.entity.ContactInfo;
 
 import java.util.Arrays;
@@ -18,17 +14,13 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureTestDatabase
-@AutoConfigureTestEntityManager
-@Transactional
-@DirtiesContext
+@DataJpaTest
 class ContactInfoDAOImplTest {
 
     public static final String EMAIL = "nisse@gmail.com";
     public static final String PHONE = "0701234567";
     @Autowired
-    private ContactInfoDAOImpl testObject;
+    private ContactInfoDAO testObject;
     @Autowired
     private TestEntityManager em;
 
@@ -93,7 +85,7 @@ class ContactInfoDAOImplTest {
 
     @Test
     void delete() {
-        testObject.delete(contactInfo.getId());
+        testObject.deleteById(contactInfo.getId());
         assertNull(em.find(ContactInfo.class, contactInfo.getId()));
     }
 }
