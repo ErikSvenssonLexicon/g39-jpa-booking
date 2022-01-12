@@ -40,6 +40,16 @@ public class AppUserServiceImpl implements AppUserService{
     }
 
     @Override
+    public AppUserDTO addRole(String id, UserRole role) {
+        return dtoService.toFullAppUserDTO(appUserEntityService.addRole(id, role));
+    }
+
+    @Override
+    public AppUserDTO removeRole(String id, UserRole role) {
+        return dtoService.toFullAppUserDTO(appUserEntityService.addRole(id, role));
+    }
+
+    @Override
     public List<AppUserDTO> findAll() {
         return appUserEntityService.findAll().stream()
                 .map(dtoService::toSmallAppUserDTO)

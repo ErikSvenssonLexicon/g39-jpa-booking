@@ -2,11 +2,14 @@ package se.lexicon.jpabooking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.jpabooking.model.constants.UserRole;
 import se.lexicon.jpabooking.model.dto.form.AppUserForm;
 import se.lexicon.jpabooking.model.dto.view.AppUserDTO;
 import se.lexicon.jpabooking.service.facade.AppUserService;
+import se.lexicon.jpabooking.validation.OnPost;
+import se.lexicon.jpabooking.validation.OnPut;
 
 @RestController
 public class AppUserController {
@@ -19,12 +22,12 @@ public class AppUserController {
     }
 
     @PostMapping("/api/v1/users/admin")
-    public ResponseEntity<AppUserDTO> createSuperAdmin(@RequestBody AppUserForm appUserForm){
+    public ResponseEntity<AppUserDTO> createSuperAdmin(@Validated(OnPost.class) @RequestBody AppUserForm appUserForm){
         return ResponseEntity.status(201).body(appUserService.create(appUserForm, UserRole.ROLE_SUPER_ADMIN));
     }
 
     @PostMapping("/api/v1/users")
-    public ResponseEntity<AppUserDTO> createPremisesAdmin(@RequestBody AppUserForm appUserForm){
+    public ResponseEntity<AppUserDTO> createPremisesAdmin(@Validated(OnPost.class) @RequestBody AppUserForm appUserForm){
         return ResponseEntity.status(201).body(appUserService.create(appUserForm, UserRole.ROLE_PREMISES_ADMIN));
     }
 
@@ -45,8 +48,18 @@ public class AppUserController {
         }
     }
 
+    @PutMapping("/api/v1/users/{id}/role/add")
+    public ResponseEntity<AppUserDTO> addRole(@PathVariable("id") String id, @RequestParam(name = "role") UserRole role){
+        return ResponseEntity.ok(appUserService.addRole(id, role));
+    }
+
+    @PutMapping("/api/v1/users/{id}/role/remove")
+    public ResponseEntity<AppUserDTO> removeRole(@PathVariable("id") String id, @RequestParam(name = "role") UserRole role){
+        return ResponseEntity.ok(appUserService.removeRole(id, role));
+    }
+
     @PutMapping("/api/v1/users/{id}")
-    public ResponseEntity<AppUserDTO> update(@PathVariable("id") String id, AppUserForm appUserForm){
+    public ResponseEntity<AppUserDTO> update(@PathVariable("id") String id, @Validated(OnPut.class) @RequestBody AppUserForm appUserForm){
         return ResponseEntity.ok(appUserService.update(id, appUserForm));
     }
 

@@ -54,6 +54,26 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
     }
 
     @Override
+    public AppUser addRole(String id, UserRole role) {
+        AppUser appUser = findById(id);
+        AppRole appRole = appRoleDAO.findByUserRole(role)
+                .orElseThrow(() -> new AppResourceNotFoundException("Could not find role"));
+        appUser.addAppRole(appRole);
+
+        return appUserDAO.save(appUser);
+    }
+
+    @Override
+    public AppUser removeRole(String id, UserRole role) {
+        AppUser appUser = findById(id);
+        AppRole appRole = appRoleDAO.findByUserRole(role)
+                .orElseThrow(() -> new AppResourceNotFoundException("Could not find role"));
+        appUser.removeAppRole(appRole);
+
+        return appUserDAO.save(appUser);
+    }
+
+    @Override
     public AppUser create(AppUserForm appUserForm) {
         if(appUserForm == null){
             throw new IllegalArgumentException("AppUserForm was null");
@@ -87,6 +107,8 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
 
     @Override
     public void delete(String id) {
+        AppUser appUser = findById(id);
+        appUser.setRoles(null);
         appUserDAO.delete(id);
     }
 }
