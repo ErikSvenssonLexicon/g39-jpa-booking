@@ -12,6 +12,7 @@ import se.lexicon.jpabooking.model.entity.AppRole;
 import se.lexicon.jpabooking.model.entity.AppUser;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -74,6 +75,10 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
     @Override
     public AppUser update(String id, AppUserForm appUserForm) {
         AppUser appUser = findById(id);
+        Optional<AppUser> optional = appUserDAO.findByUsername(appUserForm.getUsername().trim());
+        if(optional.isPresent() && !id.equals(optional.get().getId())){
+            throw new IllegalArgumentException("Username is already taken");
+        }
         appUser.setUsername(appUserForm.getUsername());
         appUser.setPassword(appUserForm.getPassword());
         appUser = appUserDAO.save(appUser);
