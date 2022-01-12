@@ -60,6 +60,9 @@ public class PremisesEntityServiceImpl implements PremisesEntityService{
         }
 
         premises = premisesDAO.save(premises);
+        if(premisesForm.getAddress() != null && premisesDAO.countUsagesByAddressId(premisesForm.getAddress().getId()) == 0){
+            addressEntityService.delete(premisesForm.getAddress().getId());
+        }
         return premises;
     }
 
