@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.database.BookingDAO;
 import se.lexicon.jpabooking.database.PatientDAO;
 import se.lexicon.jpabooking.exception.AppResourceNotFoundException;
+import se.lexicon.jpabooking.model.dto.form.ContactInfoForm;
 import se.lexicon.jpabooking.model.dto.form.PatientForm;
 import se.lexicon.jpabooking.model.entity.Booking;
 import se.lexicon.jpabooking.model.entity.Patient;
@@ -118,5 +119,14 @@ public class PatientEntityServiceImpl implements PatientEntityService{
 
         patient = patientDAO.save(patient);
         return patient;
+    }
+
+    @Override
+    public Patient updateContactInfo(String id, ContactInfoForm form) {
+        Patient patient = findById(id);
+        patient.setContactInfo(
+                contactInfoEntityService.update(form.getId(), form)
+        );
+        return patientDAO.save(patient);
     }
 }

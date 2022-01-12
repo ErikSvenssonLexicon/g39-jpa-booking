@@ -1,5 +1,6 @@
 package se.lexicon.jpabooking.service.facade;
 
+import se.lexicon.jpabooking.model.dto.form.ContactInfoForm;
 import se.lexicon.jpabooking.model.dto.form.PatientForm;
 import se.lexicon.jpabooking.model.dto.view.PatientDTO;
 import se.lexicon.jpabooking.service.entity.GenericEntityService;
@@ -11,4 +12,5 @@ public interface PatientService extends GenericEntityService<PatientDTO, Patient
     List<PatientDTO> searchByName(String name);
     PatientDTO addBooking(String id, String bookingId);
     PatientDTO removeBooking(String id, String bookingId);
+    PatientDTO updateContactInfo(String id, ContactInfoForm contactInfoForm);
 }

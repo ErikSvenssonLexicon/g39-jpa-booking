@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import se.lexicon.jpabooking.model.dto.form.ContactInfoForm;
 import se.lexicon.jpabooking.model.dto.form.PatientForm;
 import se.lexicon.jpabooking.model.dto.view.PatientDTO;
 import se.lexicon.jpabooking.service.facade.PatientService;
@@ -60,6 +61,10 @@ public class PatientController {
     @PutMapping("/api/v1/patients{id}/bookings/remove")
     public ResponseEntity<PatientDTO> removeBooking(@PathVariable("id") String id, @RequestParam(name = "bookingId") String bookingId){
         return ResponseEntity.ok(patientService.removeBooking(id, bookingId));
+    }
+
+    public ResponseEntity<PatientDTO> updatePatientContactInfo(@PathVariable("id") String id, @Validated(OnPut.class) @RequestBody ContactInfoForm contactInfoForm){
+        return ResponseEntity.ok(patientService.updateContactInfo(id, contactInfoForm));
     }
 
     @DeleteMapping("/api/v1/patients/{id}")

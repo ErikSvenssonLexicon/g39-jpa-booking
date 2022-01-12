@@ -3,6 +3,7 @@ package se.lexicon.jpabooking.service.facade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.lexicon.jpabooking.model.dto.form.ContactInfoForm;
 import se.lexicon.jpabooking.model.dto.form.PatientForm;
 import se.lexicon.jpabooking.model.dto.view.PatientDTO;
 import se.lexicon.jpabooking.service.entity.PatientEntityService;
@@ -70,5 +71,10 @@ public class PatientServiceImpl implements PatientService{
     @Override
     public PatientDTO removeBooking(String id, String bookingId) {
         return dtoService.toFullPatientDTO(patientEntityService.removeBooking(id, bookingId));
+    }
+
+    @Override
+    public PatientDTO updateContactInfo(String id, ContactInfoForm contactInfoForm) {
+        return dtoService.toFullPatientDTO(patientEntityService.updateContactInfo(id, contactInfoForm));
     }
 }
