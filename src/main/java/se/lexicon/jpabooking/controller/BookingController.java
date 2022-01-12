@@ -1,10 +1,13 @@
 package se.lexicon.jpabooking.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.jpabooking.model.dto.form.BookingForm;
 import se.lexicon.jpabooking.model.dto.view.BookingDTO;
 import se.lexicon.jpabooking.service.facade.BookingService;
+import se.lexicon.jpabooking.validation.OnPost;
+import se.lexicon.jpabooking.validation.OnPut;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +22,7 @@ public class BookingController {
     }
 
     @PostMapping("/api/v1/bookings")
-    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingForm bookingForm){
+    public ResponseEntity<BookingDTO> createBooking(@Validated(OnPost.class) @RequestBody BookingForm bookingForm){
         return ResponseEntity.status(201).body(
                 bookingService.create(bookingForm)
         );
@@ -71,7 +74,7 @@ public class BookingController {
     }
 
     @PutMapping("/api/v1/bookings/{id}")
-    public ResponseEntity<BookingDTO> update(@PathVariable("id") String id, @RequestBody BookingForm bookingForm){
+    public ResponseEntity<BookingDTO> update(@PathVariable("id") String id, @Validated(OnPut.class) @RequestBody BookingForm bookingForm){
         return ResponseEntity.ok(bookingService.update(id, bookingForm));
     }
 

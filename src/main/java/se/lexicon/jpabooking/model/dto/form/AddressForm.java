@@ -1,6 +1,8 @@
 package se.lexicon.jpabooking.model.dto.form;
 
 import org.springframework.validation.annotation.Validated;
+import se.lexicon.jpabooking.validation.OnPost;
+import se.lexicon.jpabooking.validation.OnPut;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -9,13 +11,14 @@ import static se.lexicon.jpabooking.validation.messages.ValidationMessages.MANDA
 
 @Validated
 public class AddressForm implements Serializable {
-    
+
+    @NotBlank(message = MANDATORY_FIELD, groups = OnPut.class)
     private String id;
-    @NotBlank(message = MANDATORY_FIELD)
+    @NotBlank(message = MANDATORY_FIELD, groups = {OnPost.class, OnPut.class})
     private String streetAddress;
-    @NotBlank(message = MANDATORY_FIELD)
+    @NotBlank(message = MANDATORY_FIELD, groups = {OnPost.class, OnPut.class})
     private String zipCode;
-    @NotBlank(message = MANDATORY_FIELD)
+    @NotBlank(message = MANDATORY_FIELD, groups = {OnPost.class, OnPut.class})
     private String city;
 
     public AddressForm() {

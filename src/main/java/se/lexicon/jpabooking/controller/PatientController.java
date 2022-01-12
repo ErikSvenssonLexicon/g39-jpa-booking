@@ -2,10 +2,13 @@ package se.lexicon.jpabooking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.jpabooking.model.dto.form.PatientForm;
 import se.lexicon.jpabooking.model.dto.view.PatientDTO;
 import se.lexicon.jpabooking.service.facade.PatientService;
+import se.lexicon.jpabooking.validation.OnPost;
+import se.lexicon.jpabooking.validation.OnPut;
 
 @RestController
 public class PatientController {
@@ -18,7 +21,7 @@ public class PatientController {
     }
 
     @PostMapping("/api/v1/patients")
-    public ResponseEntity<PatientDTO> create(@RequestBody PatientForm form){
+    public ResponseEntity<PatientDTO> create(@Validated(OnPost.class) @RequestBody PatientForm form){
         return ResponseEntity.status(201).body(patientService.create(form));
     }
 
@@ -45,7 +48,7 @@ public class PatientController {
     }
 
     @PutMapping("/api/v1/patients/{id}")
-    public ResponseEntity<PatientDTO> update(@PathVariable("id") String id, @RequestBody PatientForm form){
+    public ResponseEntity<PatientDTO> update(@PathVariable("id") String id, @Validated(OnPut.class) @RequestBody PatientForm form){
         return ResponseEntity.ok(patientService.update(id, form));
     }
 
