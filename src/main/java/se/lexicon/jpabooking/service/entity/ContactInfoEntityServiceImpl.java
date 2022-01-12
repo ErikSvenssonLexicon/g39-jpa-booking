@@ -51,7 +51,7 @@ public class ContactInfoEntityServiceImpl implements ContactInfoEntityService{
     public ContactInfo update(String id, ContactInfoForm contactInfoForm) {
         ContactInfo contactInfo = findById(id);
 
-        Optional<ContactInfo> optional = contactInfoDAO.findByEmail(contactInfoForm.getEmail());
+        Optional<ContactInfo> optional = contactInfoDAO.findByEmail(contactInfoForm.getEmail().trim());
         if(optional.isPresent() && !optional.get().getId().equals(id)){
             throw new IllegalArgumentException("Provided email is already used");
         }
