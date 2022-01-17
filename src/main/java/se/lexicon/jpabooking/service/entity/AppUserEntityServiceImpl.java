@@ -1,6 +1,7 @@
 package se.lexicon.jpabooking.service.entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.database.AppRoleDAO;
@@ -20,11 +21,13 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
 
     private final AppUserDAO appUserDAO;
     private final AppRoleDAO appRoleDAO;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AppUserEntityServiceImpl(AppUserDAO appUserDAO, AppRoleDAO appRoleDAO) {
+    public AppUserEntityServiceImpl(AppUserDAO appUserDAO, AppRoleDAO appRoleDAO, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.appUserDAO = appUserDAO;
         this.appRoleDAO = appRoleDAO;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
         }
         AppUser appUser = new AppUser();
         appUser.setUsername(appUserForm.getUsername());
-        appUser.setPassword(appUserForm.getPassword());
+        appUser.setPassword(bCryptPasswordEncoder.encode(appUserForm.getPassword()));
         AppRole appRole = appRoleDAO.findByUserRole(role)
                 .orElseThrow(() -> new AppResourceNotFoundException("Could not find AppRole"));
         appUser.addAppRole(appRole);
@@ -100,7 +103,7 @@ public class AppUserEntityServiceImpl implements AppUserEntityService{
             throw new IllegalArgumentException("Username is already taken");
         }
         appUser.setUsername(appUserForm.getUsername());
-        appUser.setPassword(appUserForm.getPassword());
+        appUser.setPassword(bCryptPasswordEncoder.encode(appUserForm.getPassword()));
         appUser = appUserDAO.save(appUser);
         return appUser;
     }
