@@ -28,6 +28,21 @@ public class AppUser {
     )
     private Set<AppRole> roles;
 
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    @OneToOne(
+            cascade = {CascadeType.REFRESH, CascadeType.DETACH},
+            fetch = FetchType.LAZY,
+            mappedBy = "userCredentials"
+    )
+    private Patient patient;
+
     public AppUser(String id, String username, String password) {
         this.id = id;
         this.username = username;
