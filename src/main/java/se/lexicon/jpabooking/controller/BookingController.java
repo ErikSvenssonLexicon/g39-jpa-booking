@@ -1,6 +1,9 @@
 package se.lexicon.jpabooking.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.jpabooking.model.dto.form.BookingForm;
@@ -21,6 +24,7 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    @Secured({"ROLE_SUPER_ADMIN", "ROLE_PREMISES_ADMIN"})
     @PostMapping("/api/v1/bookings")
     public ResponseEntity<BookingDTO> createBooking(@Validated(OnPost.class) @RequestBody BookingForm bookingForm){
         return ResponseEntity.status(201).body(
@@ -73,11 +77,13 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.findById(id));
     }
 
+    @Secured({"ROLE_PREMISES_ADMIN","ROLE_SUPER_ADMIN"})
     @PutMapping("/api/v1/bookings/{id}")
     public ResponseEntity<BookingDTO> update(@PathVariable("id") String id, @Validated(OnPut.class) @RequestBody BookingForm bookingForm){
         return ResponseEntity.ok(bookingService.update(id, bookingForm));
     }
 
+    @Secured({"ROLE_PREMISES_ADMIN", "ROLE_SUPER_ADMIN"})
     @DeleteMapping("/api/v1/bookings/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") String id){
         bookingService.delete(id);
