@@ -27,9 +27,11 @@ import static se.lexicon.jpabooking.security.SecurityConstants.*;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final JWTUtil jwtUtil;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
         setFilterProcessesUrl("/api/v1/public/auth");
     }
 
@@ -62,21 +64,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         AppUserDetails appUserDetails = (AppUserDetails) authResult.getPrincipal();
 
         if(appUserDetails != null){
-            SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
-            String jwt = Jwts.builder()
-                    .setIssuer(JPA_BOOKING)
-                    .setHeaderParam("typ", "JWT")
-                    .setSubject(appUserDetails.getUsername())
-                    .claim(AUTHORITIES, populateAuthorities(appUserDetails.getAuthorities()))
-                    .claim(USER_ID, appUserDetails.getUserId())
-                    .claim(PATIENT_ID, appUserDetails.getPatientId())
-                    .claim(EMAIL, appUserDetails.getEmail())
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date(
-                            System.currentTimeMillis() + 3_600_000
-                    ))
-                    .signWith(key, SignatureAlgorithm.HS512).compact();
-
+            String jwt = jwtUtil.fromAppUserDetails(appUserDetails);
             Map<String, String> body = new HashMap<>();
             body.put("accessToken", jwt);
             ObjectMapper objectMapper = new ObjectMapper();
@@ -84,14 +72,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(body);
             response.getWriter().write(json);
         }
-
     }
 
-    public String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        Set<String> authoritiesSet = new HashSet<>();
-        for(GrantedAuthority authority : authorities){
-            authoritiesSet.add(authority.getAuthority());
-        }
-        return String.join(",", authoritiesSet);
-    }
+
 }

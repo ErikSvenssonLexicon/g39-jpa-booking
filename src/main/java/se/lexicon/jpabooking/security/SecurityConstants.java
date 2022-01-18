@@ -8,4 +8,5 @@ public class SecurityConstants {
     public static final String PATIENT_ID = "patientId";
     public static final String EMAIL = "email";
     public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
 }

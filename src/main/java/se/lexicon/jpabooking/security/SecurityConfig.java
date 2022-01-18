@@ -19,11 +19,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JWTUtil jwtUtil;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder) {
+    public SecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder, JWTUtil jwtUtil) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -37,8 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .csrf().disable().cors().configurationSource(new CorsConfigurationFactory())
                 .and()
-                    .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                    .addFilter(new JWTTokenValidatorFilter(authenticationManager()))
+                    .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil))
+                    .addFilter(new JWTTokenValidatorFilter(authenticationManager(), jwtUtil))
                         .authorizeRequests()
                     .antMatchers("/api/v1/public/register", "/api/v1/public/auth").permitAll()
                 .anyRequest().authenticated();

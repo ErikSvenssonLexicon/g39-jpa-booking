@@ -26,8 +26,13 @@ import static se.lexicon.jpabooking.security.SecurityConstants.*;
 
 public class JWTTokenValidatorFilter extends BasicAuthenticationFilter {
 
-    public JWTTokenValidatorFilter(AuthenticationManager authenticationManager) {
+    private final JWTUtil jwtUtil;
+
+
+
+    public JWTTokenValidatorFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         super(authenticationManager);
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -35,34 +40,15 @@ public class JWTTokenValidatorFilter extends BasicAuthenticationFilter {
         String jwt = request.getHeader(AUTHORIZATION);
         if(jwt != null){
             try{
-                if(!jwt.startsWith("Bearer ")){
+                if(!jwt.startsWith(BEARER)){
                     throw new BadCredentialsException("Invalid token");
                 }
-
-                jwt = jwt.substring("Bearer ".length());
-                SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
-                Claims claims = Jwts.parserBuilder()
-                        .setSigningKey(key)
-                        .build()
-                        .parseClaimsJws(jwt)
-                        .getBody();
-
-                String username = claims.getSubject();
-                String authorities = claims.get(AUTHORITIES, String.class);
-                Set<SimpleGrantedAuthority> authoritySet = Arrays.stream(authorities.split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toSet());
-                String userId = claims.get(USER_ID, String.class);
-                String patientId = claims.get(PATIENT_ID, String.class);
-                String email = claims.get(EMAIL, String.class);
-
-                AppUserDetails appUserDetails = new AppUserDetails(
-                        userId, username, patientId, null, email, null, true, authoritySet
-                );
+                jwt = jwt.substring(BEARER.length());
+                Claims claims = jwtUtil.parseClaims(jwt);
+                AppUserDetails appUserDetails = jwtUtil.fromClaims(claims);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
-                        appUserDetails, null, authoritySet
+                        appUserDetails, null, appUserDetails.getAuthorities()
                 );
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }catch (Exception e){
                 throw new BadCredentialsException("Invalid token received");
