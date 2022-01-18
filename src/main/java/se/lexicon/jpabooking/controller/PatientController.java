@@ -2,6 +2,8 @@ package se.lexicon.jpabooking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.jpabooking.model.dto.form.ContactInfoForm;
@@ -26,6 +28,7 @@ public class PatientController {
         return ResponseEntity.status(201).body(patientService.create(form));
     }
 
+    @Secured({"ROLE_PREMISES_ADMIN", "ROLE_SUPER_ADMIN"})
     @GetMapping("/api/v1/patients")
     public ResponseEntity<?> find(
             @RequestParam(name = "search", defaultValue = "all") String search,
@@ -43,30 +46,37 @@ public class PatientController {
         }
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('PREMISES_ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/api/v1/patients/{id}")
     public ResponseEntity<PatientDTO> findById(@PathVariable("id") String id){
         return ResponseEntity.ok(patientService.findById(id));
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('SUPER_ADMIN')")
     @PutMapping("/api/v1/patients/{id}")
     public ResponseEntity<PatientDTO> update(@PathVariable("id") String id, @Validated(OnPut.class) @RequestBody PatientForm form){
         return ResponseEntity.ok(patientService.update(id, form));
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('PREMISES_ADMIN', 'SUPER_ADMIN')")
     @PutMapping("/api/v1/patients/{id}/bookings/add")
     public ResponseEntity<PatientDTO> addBooking(@PathVariable("id") String id, @RequestParam(name = "bookingId") String bookingId){
         return ResponseEntity.ok(patientService.addBooking(id, bookingId));
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('PREMISES_ADMIN', 'SUPER_ADMIN')")
     @PutMapping("/api/v1/patients{id}/bookings/remove")
     public ResponseEntity<PatientDTO> removeBooking(@PathVariable("id") String id, @RequestParam(name = "bookingId") String bookingId){
         return ResponseEntity.ok(patientService.removeBooking(id, bookingId));
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('SUPER_ADMIN')")
+    @PutMapping("/api/v1/patients/{id}/contact")
     public ResponseEntity<PatientDTO> updatePatientContactInfo(@PathVariable("id") String id, @Validated(OnPut.class) @RequestBody ContactInfoForm contactInfoForm){
         return ResponseEntity.ok(patientService.updateContactInfo(id, contactInfoForm));
     }
 
+    @PreAuthorize("#id == authentication.principal.patientId || hasAnyRole('SUPER_ADMIN')")
     @DeleteMapping("/api/v1/patients/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") String id){
         patientService.delete(id);
