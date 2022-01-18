@@ -35,7 +35,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        LoginCommand loginCommand = null;
+        LoginCommand loginCommand;
         try{
             loginCommand = new ObjectMapper().readValue(request.getInputStream(), LoginCommand.class);
         }catch (IOException ex){
@@ -57,7 +57,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authResult) throws IOException {
 
         AppUserDetails appUserDetails = (AppUserDetails) authResult.getPrincipal();
 

@@ -25,13 +25,14 @@ import java.util.stream.Collectors;
 import static se.lexicon.jpabooking.security.SecurityConstants.*;
 
 public class JWTTokenValidatorFilter extends BasicAuthenticationFilter {
+
     public JWTTokenValidatorFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String jwt = request.getHeader("Authorization");
+        String jwt = request.getHeader(AUTHORIZATION);
         if(jwt != null){
             try{
                 if(!jwt.startsWith("Bearer ")){
@@ -71,7 +72,7 @@ public class JWTTokenValidatorFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         return request.getServletPath().equals("/api/v1/public/auth");
     }
 }
