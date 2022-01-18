@@ -36,6 +36,7 @@ public class JWTUtil {
         String patientId = claims.get(PATIENT_ID, String.class);
         String email = claims.get(EMAIL, String.class);
         String authorities = claims.get(AUTHORITIES, String.class);
+        String contactId = claims.get(CONTACT_ID, String.class);
         Set<SimpleGrantedAuthority> authoritySet = Arrays.stream(authorities.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
@@ -46,6 +47,7 @@ public class JWTUtil {
         appUserDetails.setEmail(email);
         appUserDetails.setPatientId(patientId);
         appUserDetails.setUsername(username);
+        appUserDetails.setContactId(contactId);
         return appUserDetails;
     }
 
@@ -59,6 +61,7 @@ public class JWTUtil {
                 .claim(USER_ID, appUserDetails.getUserId())
                 .claim(PATIENT_ID, appUserDetails.getPatientId())
                 .claim(EMAIL, appUserDetails.getEmail())
+                .claim(CONTACT_ID, appUserDetails.getContactId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(
                         System.currentTimeMillis() + 3_600_000
@@ -97,6 +100,7 @@ public class JWTUtil {
                 .claim(PATIENT_ID, appUser.getPatient().getId())
                 .claim(USER_ID, appUser.getId())
                 .claim(EMAIL, appUser.getPatient().getContactInfo().getEmail())
+                .claim(CONTACT_ID, appUser.getPatient().getContactInfo().getId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(
                    System.currentTimeMillis() + 3_600_000
