@@ -35,10 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .csrf().disable()
-                    .authorizeRequests()
-                .antMatchers("/api/v1/public/**").permitAll()
-                        .anyRequest().authenticated();
-
+                    .csrf().disable().cors().configurationSource(new CorsConfigurationFactory())
+                .and()
+                    .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                    .addFilter(new JWTTokenValidatorFilter(authenticationManager()))
+                        .authorizeRequests()
+                    .antMatchers("/api/v1/public/register", "/api/v1/public/auth").permitAll()
+                .anyRequest().authenticated();
     }
 }

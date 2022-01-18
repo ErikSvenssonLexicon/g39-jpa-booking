@@ -21,7 +21,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @PostMapping("/api/v1/patients")
+    @PostMapping("/api/v1/public/register")
     public ResponseEntity<PatientDTO> create(@Validated(OnPost.class) @RequestBody PatientForm form){
         return ResponseEntity.status(201).body(patientService.create(form));
     }

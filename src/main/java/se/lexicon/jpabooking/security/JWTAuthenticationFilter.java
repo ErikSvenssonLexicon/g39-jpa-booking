@@ -22,14 +22,15 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static se.lexicon.jpabooking.security.SecurityConstants.JWT_KEY;
+import static se.lexicon.jpabooking.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
     private final AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        setFilterProcessesUrl("/api/public/auth");
+        setFilterProcessesUrl("/api/v1/public/auth");
     }
 
     @Override
@@ -63,13 +64,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if(appUserDetails != null){
             SecretKey key = Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8));
             String jwt = Jwts.builder()
-                    .setIssuer("jpa-booking")
+                    .setIssuer(JPA_BOOKING)
                     .setHeaderParam("typ", "JWT")
                     .setSubject(appUserDetails.getUsername())
-                    .claim("authorities", populateAuthorities(appUserDetails.getAuthorities()))
-                    .claim("userId", appUserDetails.getUserId())
-                    .claim("patientId", appUserDetails.getPatientId())
-                    .claim("email", appUserDetails.getEmail())
+                    .claim(AUTHORITIES, populateAuthorities(appUserDetails.getAuthorities()))
+                    .claim(USER_ID, appUserDetails.getUserId())
+                    .claim(PATIENT_ID, appUserDetails.getPatientId())
+                    .claim(EMAIL, appUserDetails.getEmail())
                     .setIssuedAt(new Date())
                     .setExpiration(new Date(
                             System.currentTimeMillis() + 3_600_000
@@ -86,7 +87,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     }
 
-    private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
+    public String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
         Set<String> authoritiesSet = new HashSet<>();
         for(GrantedAuthority authority : authorities){
             authoritiesSet.add(authority.getAuthority());
