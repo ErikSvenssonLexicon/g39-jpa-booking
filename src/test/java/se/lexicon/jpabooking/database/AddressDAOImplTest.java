@@ -45,8 +45,8 @@ class AddressDAOImplTest {
 
     @Test
     void findByStreetZipCodeAndCity() {
-        Optional<Address> result = testObject.findByStreetZipCodeAndCity(STREET_ADDRESS, ZIP_CODE, CITY);
-        assertTrue(result.isPresent());
+        List<Address> result = testObject.findByStreetZipCodeAndCity(STREET_ADDRESS, ZIP_CODE, CITY);
+        assertEquals(1, result.size());
     }
 
     @Test

@@ -9,6 +9,7 @@ import se.lexicon.jpabooking.model.dto.form.AddressForm;
 import se.lexicon.jpabooking.model.entity.Address;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,16 +25,15 @@ public class AddressEntityServiceImpl implements AddressEntityService{
     @Override
     public Address persistOrChange(AddressForm addressForm) {
         if(addressForm == null) throw new IllegalArgumentException("AddressForm was null");
-
-        return addressDAO.findByStreetZipCodeAndCity(
-                addressForm.getStreetAddress().trim(),
-                addressForm.getZipCode().replace(" ", ""),
-                addressForm.getCity().trim()
-        ).orElse(
-                addressDAO.save(new Address(
+        List<Address> addresses = addressDAO.findByStreetZipCodeAndCity(addressForm.getStreetAddress().trim(), addressForm.getZipCode().replace(" ",""), addressForm.getCity().trim());
+        if(addresses.size() > 0){
+            return addresses.get(0);
+        }else{
+            return addressDAO.save(new Address(
                     null, addressForm.getStreetAddress().trim(), addressForm.getZipCode().replace(" ", ""), addressForm.getCity().trim()
-                ))
-        );
+            ));
+        }
+
     }
 
     @Override

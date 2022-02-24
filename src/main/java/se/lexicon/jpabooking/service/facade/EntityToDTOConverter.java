@@ -17,9 +17,6 @@ public class EntityToDTOConverter implements DTOService{
     public PremisesDTO toFullPremisesDTO(Premises premises){
         if(premises == null) return null;
         PremisesDTO premisesDTO = toSmallPremisesDTO(premises);
-        premisesDTO.setAddress(
-                toAddressDTO(premises.getAddress())
-        );
         List<BookingDTO> bookingDTOS = new ArrayList<>();
         if(!premises.getBookings().isEmpty()){
             bookingDTOS = premises.getBookings().stream()
@@ -36,6 +33,9 @@ public class EntityToDTOConverter implements DTOService{
         PremisesDTO premisesDTO = new PremisesDTO();
         premisesDTO.setId(premises.getId());
         premisesDTO.setName(premises.getName());
+        premisesDTO.setAddress(
+                toAddressDTO(premises.getAddress())
+        );
         return premisesDTO;
     }
 

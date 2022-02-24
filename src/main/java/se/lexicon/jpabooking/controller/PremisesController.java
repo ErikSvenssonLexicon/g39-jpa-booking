@@ -15,6 +15,7 @@ import se.lexicon.jpabooking.validation.OnPut;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class PremisesController {
 
     private final PremisesService premisesService;

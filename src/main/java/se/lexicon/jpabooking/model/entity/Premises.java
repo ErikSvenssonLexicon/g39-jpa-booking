@@ -21,7 +21,7 @@ public class Premises {
     private String name;
     @ManyToOne(
             cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST},
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinColumn(name = "fk_address_id")
     private Address address;

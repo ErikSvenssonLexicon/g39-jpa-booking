@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpabooking.database.PremisesDAO;
 import se.lexicon.jpabooking.exception.AppResourceNotFoundException;
+import se.lexicon.jpabooking.model.dto.form.AddressForm;
 import se.lexicon.jpabooking.model.dto.form.BookingForm;
 import se.lexicon.jpabooking.model.dto.form.PremisesForm;
+import se.lexicon.jpabooking.model.entity.Address;
 import se.lexicon.jpabooking.model.entity.Booking;
 import se.lexicon.jpabooking.model.entity.Premises;
 
@@ -60,6 +62,8 @@ public class PremisesEntityServiceImpl implements PremisesEntityService{
         }
 
         premises = premisesDAO.save(premises);
+        Long count = premisesDAO.countUsagesByAddressId(premisesForm.getAddress().getId());
+
         if(premisesForm.getAddress() != null && premisesDAO.countUsagesByAddressId(premisesForm.getAddress().getId()) == 0){
             addressEntityService.delete(premisesForm.getAddress().getId());
         }

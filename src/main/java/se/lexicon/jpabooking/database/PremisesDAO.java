@@ -6,6 +6,6 @@ import org.springframework.data.repository.query.Param;
 import se.lexicon.jpabooking.model.entity.Premises;
 
 public interface PremisesDAO extends JpaRepository<Premises, String> {
-    @Query("SELECT COUNT(p.id) as total FROM Premises p WHERE p.address.id = :addressId")
-    long countUsagesByAddressId(@Param("addressId") String addressId);
+    @Query("SELECT COUNT(p.id) FROM Premises p WHERE p.address.id = :addressId")
+    Long countUsagesByAddressId(@Param("addressId") String addressId);
 }
