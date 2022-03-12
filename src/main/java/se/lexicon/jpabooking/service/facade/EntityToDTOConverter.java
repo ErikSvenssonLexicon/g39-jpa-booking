@@ -45,6 +45,11 @@ public class EntityToDTOConverter implements DTOService{
         BookingDTO bookingDTO = toSmallBookingDTO(booking);
         bookingDTO.setPatient(toSmallPatientDTO(booking.getPatient()));
         bookingDTO.setPremises(toSmallPremisesDTO(booking.getPremises()));
+        bookingDTO.setPatient(toSmallPatientDTO(booking.getPatient()));
+        if(bookingDTO.getPatient() != null){
+            bookingDTO.getPatient()
+                    .setContactInfo(toContactInfoDTO(booking.getPatient().getContactInfo()));
+        }
         return bookingDTO;
     }
 

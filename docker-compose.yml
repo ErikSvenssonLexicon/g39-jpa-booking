@@ -1,0 +1,33 @@
+
+version: '3'
+
+services:
+  mysql-booking:
+    build:
+      dockerfile:
+        ./mysql/Dockerfile
+    image: eosvensson/mysql-booking
+    container_name: "mysql-booking"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1234"
+    networks:
+      - "jpa-booking-mysql"
+    restart: always
+    volumes:
+      - mysql-booking:/var/lib/mysql
+  java-booking-app:
+    build:
+      dockerfile: Dockerfile
+    image: eosvensson/java-booking-app
+    container_name: "java-booking-app"
+    restart: always
+    depends_on:
+      - mysql-booking
+    ports:
+      - "8080:8080"
+    networks:
+      - "jpa-booking-mysql"
+networks:
+  jpa-booking-mysql:
+volumes:
+  mysql-booking:

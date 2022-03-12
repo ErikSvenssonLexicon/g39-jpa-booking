@@ -43,13 +43,11 @@ public class DatabaseMaintenance {
                 }
             }
             if(appUserDAO.findByUserRole(UserRole.ROLE_SUPER_ADMIN).isEmpty()){
-                ObjectMapper objectMapper = new ObjectMapper();
-                try{
-                    AppUserForm form = objectMapper.readValue(Paths.get("json/admin.json").toFile(), AppUserForm.class);
-                    appUserEntityService.create(form, UserRole.ROLE_SUPER_ADMIN);
-                }catch (IOException ex){
-                    logger.error(ex.getMessage(), ex);
-                }
+                AppUserForm appUserForm = new AppUserForm();
+                appUserForm.setUsername("super_admin");
+                appUserForm.setPassword("admin123");
+                appUserEntityService.create(appUserForm, UserRole.ROLE_SUPER_ADMIN);
+
             }
         }
 

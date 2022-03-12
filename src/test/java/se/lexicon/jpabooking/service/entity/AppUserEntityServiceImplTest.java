@@ -47,7 +47,7 @@ class AppUserEntityServiceImplTest {
 
         assertNotNull(result);
         assertNotNull(result.getId());
-        assertEquals("Karmand", result.getPassword());
+        assertNotEquals("Karmand", result.getPassword());
         assertEquals("Karmand.Aziz", result.getUsername());
         assertTrue(result.getRoles().stream().anyMatch(appRole -> appRole.getUserRole() == UserRole.ROLE_PATIENT_USER));
     }
